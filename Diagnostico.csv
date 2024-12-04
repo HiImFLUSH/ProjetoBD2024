@@ -1,0 +1,34 @@
+id;Código Capítulo Diagnóstico ICD9CM/ICD10CMPCS;Descrição Capítulo Diagnóstico ICD9CM/ICD10CMPCS
+1;1;Algumas doenças infecciosas e parasitárias
+2;1;Doenças Infecciosas e Parasitárias
+3;2;Neoplasias
+4;3;Doenças do sangue e dos órgãos hematopoéticos e alguns transtornos imunitários
+5;3;Doenças Endócrinas, Nutricionais, Metabólicas e da Imunidade
+6;4;Doenças endócrinas, nutricionais e metabólicas
+7;4;Doenças do Sangue e dos Órgãos Hematopoiéticos
+8;5;Transtornos mentais, comportamentais e de neurodesenvolvimento
+9;5;Doenças Mentais
+10;6;Doenças do sistema nervoso
+11;6;Doenças do Sistema Nervoso e dos Órgãos dos Sentidos
+12;7;Doenças do olho e anexos
+13;8;Doenças do ouvido e da apófise mastóide
+14;9;Doenças do aparelho circulatório
+15;10;Doenças do aparelho respiratório
+16;11;Doenças do aparelho digestivo
+17;11;Complicações da Gravidez, do Parto e do Puerpério
+18;12;Doenças da pele e do tecido subcutâneo
+19;13;Doenças do aparelho osteomuscular e do tecido conjuntivo
+20;14;Doenças do aparelho geniturinário
+21;14;Anomalias Congénitas
+22;15;Gravidez, parto e puerpério
+23;15;Certas Condições Originadas no Período Perinatal
+24;16;Algumas condições originadas no período perinatal
+25;16;Sintomas, Sinais e Condições Mal Definidas
+26;17;Malformações congénitas, deformações e anomalias cromossómicas
+27;17;Lesões e Intoxicações
+28;18;Sintomas, sinais e achados anormais de exames clínicos e de laboratório, não classificados em outra parte
+29;18;Classificação Suplementar Factores com Influência no Estado de Saúde e Contacto com Serviços Saúde
+30;19;Lesões, envenenamento e algumas outras consequências de causas externas
+31;20;Causas externas de morbilidade
+32;21;Fatores que influenciam o estado de saúde e o contacto com os serviços de saúde
+33;22;Códigos para fins especiais
