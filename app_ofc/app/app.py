@@ -27,13 +27,15 @@ def index():
 
 @APP.route('/ClinicStats/')
 def listar_clinicstats():
+    # Adicione comentários para explicar o propósito da consulta
     clinicstats = db.execute('''
-        SELECT data, instituicao, diagnostico.nome, internamentos, diasInternamento, ambulatorio, obitos 
-        FROM ClinicStats 
-        NATURAL JOIN Diagnostico 
-        ORDER BY data DESC, instituicao
+        SELECT c.data, i.instituicao, d.nome, c.internamentos, c.diasInternamento, c.ambulatorio, c.obitos
+        FROM ClinicStats c
+        JOIN Diagnostico d ON c.diagnostico_id = d.id
+        JOIN Instituicao i ON c.instituicao_id = i.id
+        ORDER BY c.data DESC, i.instituicao
     ''').fetchall()
-    return render_template('listar_clinicstats.html', ClinicStats=ClinicStats)
+    return render_template('listar_clinicstats.html', ClinicStats=clinicstats)
 
 @APP.route('/Regiao/')
 def regiao():
@@ -44,7 +46,7 @@ def regiao():
         GROUP BY regiao
     ''').fetchall()
     return render_template('regiao.html',
-                            regiao=regiao)
+                            Regiao=regiao)
 
 @APP.route('/Diagnostico/')
 def regiao():
@@ -56,4 +58,4 @@ def regiao():
         GROUP BY ID ORDER BY Fatalidades DESC, Internamentos, Ambulatório, diasInternamento
     ''').fetchall()
     return render_template('diagnostico.html',
-                            diagnostico=diagnostico)
+                            Diagnostico=diagnostico)
