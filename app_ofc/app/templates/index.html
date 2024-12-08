@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Base de dados de recintos culturais</h1>
+
+<table>
+  <tr>
+    <th>
+      Distritos
+    </th>
+    <th>
+      Concelhos
+    </th>
+  </tr>
+  <tr>
+    <td>
+      {{ stats.n_distritos }}
+    </td> 
+    <td>
+      {{ stats.n_concelhos }}
+    </td> 
+  </tr>
+</table>
+
+<p>
+  <a href="/distritos">Listar distritos</a>
+</p>
+<p>
+  <a href="/concelhos">Listar concelhos</a>
+</p>
+
+{% endblock %}
