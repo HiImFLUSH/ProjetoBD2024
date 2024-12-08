@@ -87,5 +87,38 @@ def r_diagnostico():
     return render_template('r_diagnostico.html',
                             Diagnostico=diagnostico)
 
+@APP.route('/Obitos_Instituicao/')
+def o_instituicao():
+    # Quais hospitais, regiões e diagnosticos possuem mais obitos
+    o_instituicao = db.execute('''
+        SELECT i.nome AS Hospitais, r.nome AS Regiao,d.nome AS Diagnostico, p.data AS Data, COUNT(DISTINCT obitos) AS Obitos
+        FROM ClinicStats c
+        JOIN Instituicao i ON c.instituicao = i.nome
+        JOIN Regiao r ON i.regiao = r.nome
+        JOIN Periodo p ON c.data = p.data
+        JOIN Diagnostico d
+        WHERE obitos IS NOT NULL 
+        GROUP BY r.nome, c.data, i.nome
+        ORDER BY r.nome, c.data, Obitos DESC;
+    ''').fetchall()
+    return render_template('o_instituicao.html',
+                           Obitos=o_instituicao)
 
-####
+@APP.route('/Pacientes_Internacao')
+def p_interna():
+    # Pacientes com diagnosticos que resultaram em internações superiores à média global
+    p_internacoes = db.execute('''
+        WITH AvgInt AS(
+        SELECT AVG(c.internamentos) AS MedGlob, c.IDP AS IDP
+        FROM ClinicStats c
+        GROUP BY c.IDP)
+        SELECT p.IDP AS Pacientes, d.nome AS Diagnostico, c.internamentos AS Internamentos, p.faixaEtaria AS Faixa_Etaria
+        FROM ClinicStats c
+        JOIN Paciente p ON c.IDP = p.IDP
+        JOIN Diagnostico d ON c.ID = d.ID
+        JOIN AvgInt ON c.IDP = AvgInt.IDP
+        WHERE c.internamentos > AvgInt.MedGlob
+        ORDER BY Faixa_Etaria, Diagnostico
+    ''').fetchall()
+    return render_template('p_internacoes.html',
+                           Pacientes=p_internacoes)
