@@ -17,6 +17,7 @@
       regiao
     </th>
   </tr>
+   {% for c in ClinicStats %}
   <tr>
     <td>
       {{ c.id }}
@@ -24,9 +25,9 @@
     <td>
       <a href="/concelhos/{{ c.codigo }}/">{{ c.codigo}}</a>
     </td>
-    {% endfor %}
+    
   </tr>
+  {% endfor %}
 </table>
-</body>
+
 {% endblock %}
-</html>

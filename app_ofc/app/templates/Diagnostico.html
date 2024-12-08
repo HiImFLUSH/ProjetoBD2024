@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-   <link rel="stylesheet" href="styles.css">
-<title>
+
   {% extends 'base.html' %}
   {% block content %}
   </title>
@@ -20,6 +17,7 @@
       descrição
     </th>
   </tr>
+      {% for c in ClinicStats %}
   <tr>
     <td>
       {{ c.id }}
@@ -30,11 +28,9 @@
     <td>
       {{ c.descrição }}
     </td>
-    {% endfor %}
+    
   </tr>
+  {% endfor %}
 </table>
 
-
-</body>
 {% endblock %}
-</html>
