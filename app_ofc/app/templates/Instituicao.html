@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-   <link rel="stylesheet" href="styles.css">
-<title>
+
   {% extends 'base.html' %}
   {% block content %}
-  </title>
-<body>
+
 
      <h1> Instituição</h1>
      <table>
@@ -25,7 +21,7 @@
     <td>
       <a href="/concelhos/{{ c.codigo }}/">{{ c.codigo}}</a>
     </td>
-    
+
   </tr>
   {% endfor %}
 </table>

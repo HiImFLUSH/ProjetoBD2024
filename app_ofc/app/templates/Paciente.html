@@ -17,20 +17,18 @@
       genero
     </th>
   </tr>
-   {% for c in ClinicStats %}
+   {% for p in Paciente %}
   <tr>
     <td>
-      {{ c.id }}
+      {{ p.idp }}
     </td>
     <td>
-      <a href="/concelhos/{{ c.codigo }}/">{{ c.codigo}}</a>
+      { p.faixaEtaria}
     </td>
     <td>
-      {{ c.descrição }}
+      {{ p.genero }}
     </td>
-    
   </tr>
   {% endfor %}
 </table>
-
 {% endblock %}

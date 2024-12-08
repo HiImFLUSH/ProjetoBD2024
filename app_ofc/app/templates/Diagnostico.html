@@ -17,16 +17,16 @@
       descrição
     </th>
   </tr>
-      {% for c in ClinicStats %}
+      {% for d in Diagnostico %}
   <tr>
     <td>
-      {{ c.id }}
+      {{ d.id }}
     </td>
     <td>
-      <a href="/concelhos/{{ c.codigo }}/">{{ c.codigo}}</a>
+      { d.cod}
     </td>
     <td>
-      {{ c.descrição }}
+      {{ d.nome }}
     </td>
     
   </tr>

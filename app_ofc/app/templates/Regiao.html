@@ -10,12 +10,11 @@
       nome
     </th>
   </tr>
-   {% for c in ClinicStats %}
+   {% for r in Regiao %}
   <tr>
     <td>
-      <a href="/concelhos/{{ c.codigo }}/">{{ c.codigo}}</a>
-    </td>
-    
+       {c.nome}
+    </td>  
   </tr>
   {% endfor %}
 </table>
