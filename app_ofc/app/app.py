@@ -10,18 +10,18 @@ APP = Flask(__name__)
 @APP.route('/')
 def index():
     stats = db.execute('''
-        SELECT * FROM
-            (SELECT COUNT(*) data FROM Periodo)
+       SELECT * FROM
+            (SELECT COUNT(*) as n_period FROM Periodo)
         JOIN
-            (SELECT COUNT(*) internamentos FROM ClinicStats;)
+            (SELECT COUNT(*) as n_inter FROM ClinicStats)
         JOIN
-            (SELECT COUNT(*) IDP FROM Paciente)
+            (SELECT COUNT(*) as n_pac FROM Paciente)
         JOIN
-            (SELECT COUNT(*) ID FROM Diagnostico)
+            (SELECT COUNT(*) as n_diag FROM Diagnostico)
         JOIN
-            (SELECT COUNT(*) nome FROM Instituicao)
+            (SELECT COUNT(*) as n_inst FROM Instituicao)
         JOIN
-            (SELECT COUNT(*) nome FROM Regiao)
+            (SELECT COUNT(*) as n_reg FROM Regiao)
     ''').fetchone()
     return render_template('index.html',stats=stats)
 
