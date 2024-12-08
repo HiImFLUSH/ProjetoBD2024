@@ -29,11 +29,11 @@ def index():
 def listar_clinicstats():
     # 
     clinicstats = db.execute('''
-        SELECT c.data, i.instituicao, d.nome, c.internamentos, c.diasInternamento, c.ambulatorio, c.obitos
-        FROM ClinicStats c
-        JOIN Diagnostico d ON c.diagnostico_id = d.id
-        JOIN Instituicao i ON c.instituicao_id = i.id
-        ORDER BY c.data DESC, i.instituicao
+       SELECT c.data, i.nome, d.nome, c.internamentos, c.diasInternamento, c.ambulatorio, c.obitos
+    FROM ClinicStats c
+    JOIN Diagnostico d ON c.ID = d.id
+    JOIN Instituicao i ON c.instituicao = i.nome
+    ORDER BY c.data DESC, i.nome
     ''').fetchall()
     return render_template('listar_clinicstats.html', ClinicStats=clinicstats)
 
