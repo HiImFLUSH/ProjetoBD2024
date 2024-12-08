@@ -86,3 +86,6 @@ def r_diagnostico():
     ''').fetchall()
     return render_template('r_diagnostico.html',
                             Diagnostico=diagnostico)
+
+
+####
