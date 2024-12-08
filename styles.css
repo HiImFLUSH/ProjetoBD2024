@@ -1,0 +1,50 @@
+/* Estilo geral do corpo */
+body {
+    font-family: Arial, sans-serif; /* Fonte legível e ideal para tabelas */
+    background: linear-gradient(to bottom, #f0f8ff, #e6e6fa); /* Fundo agradável com gradiente suave */
+    margin: 0;
+    padding: 0;
+    color: #333; /* Cor do texto */
+}
+
+/* Estilo para tabelas */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse; /* Remove espaços entre as células */
+    background-color: #ffffff; /* Fundo branco para contraste com o texto */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+/* Cabeçalho da tabela */
+th {
+    background-color: #1b00c9; /* Cor do fundo para o cabeçalho */
+    color: #ffffff; /* Cor do texto no cabeçalho */
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Células da tabela */
+td {
+    padding: 8px;
+    border: 1px solid #ffffff; /* Bordas suaves */
+    text-align: left;
+}
+
+/* Linhas alternadas */
+tr:nth-child(even) {
+    background-color: #ffffff; /* Fundo mais claro para as linhas pares */
+}
+
+/* Efeito hover nas linhas */
+tr:hover {
+    background-color: #ffffff; /* Destaque ao passar o mouse */
+}
+
+/* Ajustes para dispositivos menores */
+@media (max-width: 768px) {
+    table {
+        width: 100%; /* Ajusta a largura da tabela */
+    }
+}
