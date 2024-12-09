@@ -34,7 +34,7 @@ def index():
     ''').fetchone()
     return render_template('Regiao.html',regiao=regiao)
 
-    @APP.route('/Diagonostico/')
+@APP.route('/Diagonostico/')
 def index():
     #tabela de diagnostico 
     stats = db.execute('''
@@ -43,7 +43,7 @@ def index():
     ''').fetchone()
     return render_template('Diagnostico.html',diagonostico=diagonostico)
 
-        @APP.route('/Instituicao/')
+@APP.route('/Instituicao/')
 def index():
     #tabela de Instituicao 
     stats = db.execute('''
@@ -52,7 +52,7 @@ def index():
     ''').fetchone()
     return render_template('Instituicao.html',instituicao=instituicao)
 
-            @APP.route('/Clinic_Stats/')
+@APP.route('/Clinic_Stats/')
 def index():
     #tabela de clinic 
     stats = db.execute('''
@@ -82,7 +82,7 @@ def index():
     ''').fetchone()
     return render_template('index.html',stats=stats)
 
-@APP.route('/ClinicStats/')
+@APP.route('/ClinicStats.html/')
 def listar_clinicstats():
     #que pregunta é esta ?????????? - 
     #nao sei quem fez mas acho que está a listar o diagnostico de cada hospital com os dias de inter., ambu., obi. e inter.
