@@ -10,11 +10,11 @@ APP = Flask(__name__)
 @APP.route('/Paciente/')
 def index5():
     #tabela de pacientes 
-    paciente = db.execute('''
+    stats = db.execute('''
        SELECT * 
        from Paciente
-    ''').fetchone()
-    return render_template('Paciente.html',paciente=paciente)
+    ''').fetchall()
+    return render_template('Paciente.html',paciente=stats)
 
 @APP.route('/Periodo/')
 def index6():
@@ -22,44 +22,45 @@ def index6():
     stats = db.execute('''
        SELECT * 
        from Periodo
-    ''').fetchone()
+    ''').fetchall()
     return render_template('Periodo.html',periodo=stats)
 
 @APP.route('/Regiao/')
 def index1():
     #tabela de regiao
-    regiao = db.execute('''
+    stats = db.execute('''
        SELECT * 
        from Regiao
-    ''').fetchone()
-    return render_template('Regiao.html',regiao=regiao)
+    ''').fetchall()
+    return render_template('Regiao.html',regiao=stats)
 
 @APP.route('/Diagonostico/')
 def index2():
     #tabela de diagnostico 
-    diagnostico = db.execute('''
+    stats = db.execute('''
        SELECT * 
        from diagnostico
-    ''').fetchone()
-    return render_template('Diagnostico.html',diagonostico=diagnostico)
+    ''').fetchall()
+    return render_template('Diagnostico.html',diagonostico=stats)
 
 @APP.route('/Instituicao/')
 def index3():
     #tabela de Instituicao 
     stats = db.execute('''
-       SELECT * 
-       from instituicao
-    ''').fetchone()
-    return render_template('Instituicao.html',instituicao=instituicao)
+        SELECT * 
+        FROM Instituicao
+        ORDER BY nome
+    ''').fetchall()
+    return render_template('ListarInstituicao.html',instituicao=stats)
 
 @APP.route('/Clinic_Stats/')
 def index4():
     #tabela de clinic 
-    clinic = db.execute('''
+    stats = db.execute('''
        SELECT * 
        from Clinic_Stats
-    ''').fetchone()
-    return render_template('Clinic_Stats.html',clinic=clinic)
+    ''').fetchall()
+    return render_template('Clinic_Stats.html',clinic=stats)
 
     
 # Start page
@@ -82,13 +83,13 @@ def index():
     ''').fetchone()
     return render_template('index.html',stats=stats)
 
-@APP.route('/1/')
+@APP.route('/DiagnosticosPorHospital/')
 def oneQuery():
-    
-    clinicstats = db.execute('''
+    stuff = db.execute('''
     SELECT 
         i.nome AS Hospital,
         d.nome AS Diagnostico,
+        COUNT(DISTINCT d.id) AS Num_DiagDif,
         SUM(c.internamentos) AS Total_Internamentos,
         MAX(c.diasInternamento) AS Max_Dias_Internamento,
         SUM(c.ambulatorio) AS Total_Ambulatorio,
@@ -104,19 +105,53 @@ def oneQuery():
     ORDER BY 
         i.nome ASC, d.nome ASC
     ''').fetchall()
-    return render_template('1.html', clinicstats=clinicstats)
+    return render_template('Diag_Hosp.html', stuff=stuff)
 
 
 @APP.route('/Instituicao/<string:nome>/')
-def instituicao():
+def instituicao(nome):
     # Obtém clinicstats por hospital
+    inCode = False
+    newNome = ""
+    for i in range(len(nome)):
+        r = nome[i]
+        if inCode:
+            if nome[i] != "2" and nome[i] != "0":
+                inCode = False
+            pass
+        if nome[i] == "%":
+            if nome[i+1] == "2" and nome[i+2] == "0":
+                inCode = True
+                r = " "
+        newNome.append(r)
+        
+        
     instituicao = db.execute('''
-        SELECT i.nome, COUNT(c.ID) AS n_reports 
-        FROM Instituicao i
-        NATURAL JOIN ClinicStats c
-        GROUP BY nome
-    ''').fetchall()
-    return render_template('instituicao.html', instituicao=instituicao)
+    SELECT 
+        d.nome AS Diagnostico,
+        SUM(c.internamentos) AS Total_Internamentos,
+        MAX(c.diasInternamento) AS Max_Dias_Internamento,
+        SUM(c.ambulatorio) AS Total_Ambulatorio,
+        SUM(c.obitos) AS Total_Obitos
+    FROM 
+        ClinicStats c
+    JOIN 
+        Diagnostico d ON c.id = d.id
+    JOIN 
+        Instituicao i ON c.instituicao = i.nome
+    WHERE 
+        i.nome like ?
+    GROUP BY 
+        i.nome, d.nome
+    ORDER BY 
+        d.nome ASC
+    ''', [newNome]).fetchall()
+    regiao =  db.execute('''
+    SELECT regiao
+    FROM Instituicao
+    WHERE Instituicao.nome like ?
+    ''', [newNome]).fetchone()
+    return render_template('Instituicao.html', instituicao=instituicao, nome=nome, regiao=regiao)
 
 
 @APP.route('/Regiao_Diagnostico/')

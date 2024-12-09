@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <table>
-      <tr>
-          <th>Periodo</th>
-          <th>Instituição</th>
-          <th>Região</th>
-          <th>Diagnósticos</th>
-          <th>Paciente</th>
-          <th>Clinic Stats</th>
-      </tr>
+<table>
+    <tr>
+        <th>Data</th>
+        <th>Instituição</th>
+        <th>Região</th>
+        <th>Diagnósticos</th>
+        <th>Pacientes</th>
+        <th>Clinic Stats</th>
+    </tr>
       {% for stat in stats %}
-      <tr>
-          <td>{{ stat.n_period }}</td>
-          <td>{{ stat.n_int }}</td>
-          <td>{{ stat.n_reg }}</td>
-          <td>{{ stat.n_diag }}</td>
-          <td>{{ stat.n_pac }}</td>
-          <td>{{ stat.n_inter }}</td>
-      </tr>
+    <tr>
+        <td>{{ stat.n_period }}</td>
+        <td>{{ stat.n_int }}</td>
+        <td>{{ stat.n_reg }}</td>
+        <td>{{ stat.n_diag }}</td>
+        <td>{{ stat.n_pac }}</td>
+        <td>{{ stat.n_inter }}</td>
+    </tr>
       {% endfor %}
-  </table>
+</table>
 {% endblock %}

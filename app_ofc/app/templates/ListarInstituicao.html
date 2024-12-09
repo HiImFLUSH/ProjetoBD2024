@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1> Instituições </h1>
+<table>
+<tr>
+  <th> Nome </th>
+  <th> Região </th>
+</tr>
+{% for i in instituicao %}
+<tr>
+  <td><a href="/Instituicao/{{ i.nome }}/">{{ i.nome }}</td>
+  <td>{{ i.regiao }}</td>
+{% endfor %}
+</table>
+{% endblock %}
