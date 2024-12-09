@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <table>
+      <tr>
+          <th>Hospitais</th>
+          <th>Região</th>
+          <th>Diagnósticos</th>
+          <th>Data</th>
+          <th>Obitos</th>
+      </tr>
+      {% for o in obitos %}
+      <tr>
+          <td>{{ o.Hospitais }}</td>
+          <td>{{ o.Regiao }}</td>
+          <td>{{ o.Diagnostico }}</td>
+          <td>{{ o.Data }}</td>
+          <td>{{ o.Obitos }}</td>
+      </tr>
+      {% end for %}
+  </table>
+    {% endblock %}

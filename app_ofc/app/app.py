@@ -118,7 +118,7 @@ def regiao():
     ''').fetchall()
     return render_template('regiao.html', Regiao=regiao)
 
-@APP.route('/Instituicao/<String:nome>/')
+@APP.route('/Instituicao/<string:nome>/')
 def instituicao():
     # Obtém clinicstats por hospital
     instituicao = db.execute('''
@@ -155,7 +155,7 @@ def r_diagnostico():
         ORDER BY Obitos DESC, Internamentos, Ambulatório, diasInternamento
     ''').fetchall()
     return render_template('r_diagnostico.html',
-                            Diagnostico=diagnostico)
+                            Diagnostico=r_diagnostico)
 
 @APP.route('/Obitos_Instituicao/')
 def o_instituicao():
@@ -168,10 +168,10 @@ def o_instituicao():
         JOIN Periodo p ON c.data = p.data
         JOIN Diagnostico d ON c.ID = d.ID
         GROUP BY r.nome, c.data, i.nome
-        ORDER BY r.nome, c.data, Obitos DESC; ---- demora muito stempo temos que as dividir em partes 
+        ORDER BY r.nome, c.data, Obitos DESC; 
     ''').fetchall()
     return render_template('o_instituicao.html',
-                           Obitos=o_instituicao)
+                           obitos=o_instituicao)
 
 @APP.route('/Pacientes_Internacao/')
 def p_interna():
