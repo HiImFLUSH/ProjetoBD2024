@@ -7,7 +7,7 @@ import db
 APP = Flask(__name__)
 
 
-@APP.route('/')
+@APP.route('/Paciente/')
 def index():
     #tabela de pacientes 
     stats = db.execute('''
@@ -16,7 +16,7 @@ def index():
     ''').fetchone()
     return render_template('Paciente.html',paciente=paciente)
 
-@APP.route('/')
+@APP.route('/Periodo/')
 def index():
     #tabela de periodo
     stats = db.execute('''
@@ -25,7 +25,7 @@ def index():
     ''').fetchone()
     return render_template('Periodo.html',periodo=periodo)
 
-@APP.route('/')
+@APP.route('/Regiao/')
 def index():
     #tabela de regiao
     stats = db.execute('''
@@ -34,16 +34,16 @@ def index():
     ''').fetchone()
     return render_template('Regiao.html',regiao=regiao)
 
-    @APP.route('/')
+    @APP.route('/Diagonostico/')
 def index():
     #tabela de diagnostico 
     stats = db.execute('''
        SELECT * 
        from diagnostico
     ''').fetchone()
-    return render_template('Diagnostico.html',diaganostico=diaganostico)
+    return render_template('Diagnostico.html',diagonostico=diagonostico)
 
-        @APP.route('/')
+        @APP.route('/Instituicao/')
 def index():
     #tabela de Instituicao 
     stats = db.execute('''
@@ -52,7 +52,7 @@ def index():
     ''').fetchone()
     return render_template('Instituicao.html',instituicao=instituicao)
 
-            @APP.route('/')
+            @APP.route('/Clinic_Stats/')
 def index():
     #tabela de clinic 
     stats = db.execute('''
