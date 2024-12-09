@@ -344,3 +344,12 @@ WHERE
     rn = 1; ''').fetchall()
     return render_template('pergunta8.html',stats=stats)
 
+
+@APP.route('/hpor/')
+def hpor():
+    stats= db.execute('''
+SELECT regiao, COUNT(nome) AS n_hospitais
+FROM Instituicao
+group by regiao
+    ''').fetchall()
+    return render_template("hpor.html", hpor=stats)

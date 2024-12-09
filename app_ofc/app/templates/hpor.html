@@ -1,0 +1,17 @@
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Periodo</h1>
+     <table>
+  <tr>
+    <th>Região</th>
+    <th>numero de hospitais</th>
+  </tr>
+   {% for r in hpor %}
+  <tr>
+    <td>{{ r.regiao }}</td>
+    <td>{{ r.n_hospitais }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
