@@ -10,6 +10,7 @@
           <th>Paciente</th>
           <th>Clinic Stats</th>
       </tr>
+      {% for stats in stats %}
       <tr>
           <td>{{ stats.n_period }}</td>
           <td>{{ stats.n_int }}</td>
