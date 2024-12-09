@@ -8,43 +8,43 @@ APP = Flask(__name__)
 
 
 @APP.route('/Paciente/')
-def index():
+def index5():
     #tabela de pacientes 
-    stats = db.execute('''
+    paciente = db.execute('''
        SELECT * 
        from Paciente
     ''').fetchone()
     return render_template('Paciente.html',paciente=paciente)
 
 @APP.route('/Periodo/')
-def index():
+def index6():
     #tabela de periodo
     stats = db.execute('''
        SELECT * 
        from Periodo
     ''').fetchone()
-    return render_template('Periodo.html',periodo=periodo)
+    return render_template('Periodo.html',periodo=stats)
 
 @APP.route('/Regiao/')
-def index():
+def index1():
     #tabela de regiao
-    stats = db.execute('''
+    regiao = db.execute('''
        SELECT * 
        from Regiao
     ''').fetchone()
     return render_template('Regiao.html',regiao=regiao)
 
 @APP.route('/Diagonostico/')
-def index():
+def index2():
     #tabela de diagnostico 
-    stats = db.execute('''
+    diagnostico = db.execute('''
        SELECT * 
        from diagnostico
     ''').fetchone()
-    return render_template('Diagnostico.html',diagonostico=diagonostico)
+    return render_template('Diagnostico.html',diagonostico=diagnostico)
 
 @APP.route('/Instituicao/')
-def index():
+def index3():
     #tabela de Instituicao 
     stats = db.execute('''
        SELECT * 
@@ -53,9 +53,9 @@ def index():
     return render_template('Instituicao.html',instituicao=instituicao)
 
 @APP.route('/Clinic_Stats/')
-def index():
+def index4():
     #tabela de clinic 
-    stats = db.execute('''
+    clinic = db.execute('''
        SELECT * 
        from Clinic_Stats
     ''').fetchone()
@@ -82,8 +82,8 @@ def index():
     ''').fetchone()
     return render_template('index.html',stats=stats)
 
-@APP.route('/ClinicStats.html/')
-def listar_clinicstats():
+@APP.route('/1/')
+def oneQuery():
     #que pregunta é esta ?????????? - 
     #nao sei quem fez mas acho que está a listar o diagnostico de cada hospital com os dias de inter., ambu., obi. e inter.
     clinicstats = db.execute('''
@@ -106,17 +106,8 @@ def listar_clinicstats():
     ORDER BY 
         i.nome ASC, d.nome ASC
     ''').fetchall()
-    return render_template('listar_clinicstats.html', clinicstats=clinicstats)
+    return render_template('1.html', clinicstats=clinicstats)
 
-@APP.route('/Regiao/')
-def regiao():
-    # Obtém quantos hospitais ha numa regiao numero no relatorio?????
-    regiao = db.execute('''
-        SELECT regiao, COUNT(nome) AS n_hospitais 
-        FROM Instituicao 
-        GROUP BY regiao
-    ''').fetchall()
-    return render_template('regiao.html', Regiao=regiao)
 
 @APP.route('/Instituicao/<string:nome>/')
 def instituicao():
@@ -127,21 +118,8 @@ def instituicao():
         NATURAL JOIN ClinicStats c
         GROUP BY nome
     ''').fetchall()
-    return render_template('instituicao.html',
-                            Instituicao=instituicao)
+    return render_template('instituicao.html', instituicao=instituicao)
 
-@APP.route('/Diagnostico/')
-def diagnostico():
-    # Quais diagnosticos possuem mais óbitos, internaçoes e ambulatórios
-    diagnostico = db.execute('''
-        SELECT ID, nome, sum(obitos) AS Obitos, sum(internamentos) AS Internamentos, sum(ambulatorio) AS Ambulatório, sum(diasInternamento) AS diasInternamento 
-        FROM Diagnostico 
-        NATURAL JOIN ClinicStats 
-        GROUP BY ID 
-        ORDER BY Obitos DESC, Internamentos, Ambulatório, diasInternamento
-    ''').fetchall()
-    return render_template('diagnostico.html',
-                            Diagnostico=diagnostico)
 
 @APP.route('/Regiao_Diagnostico/')
 def r_diagnostico():
@@ -154,8 +132,8 @@ def r_diagnostico():
         GROUP BY r.nome
         ORDER BY Obitos DESC, Internamentos, Ambulatório, diasInternamento
     ''').fetchall()
-    return render_template('r_diagnostico.html',
-                            Diagnostico=r_diagnostico)
+    return render_template('Regiao_Diag.html',
+                            diagnostico=r_diagnostico)
 
 @APP.route('/Obitos_Instituicao/')
 def o_instituicao():
@@ -168,7 +146,7 @@ def o_instituicao():
         JOIN Periodo p ON c.data = p.data
         JOIN Diagnostico d ON c.ID = d.ID
         GROUP BY r.nome, c.data, i.nome
-        ORDER BY r.nome, c.data, Obitos DESC; 
+        ORDER BY r.nome, c.data, Obitos DESC; ---- demora muito stempo temos que as dividir em partes 
     ''').fetchall()
     return render_template('o_instituicao.html',
                            obitos=o_instituicao)
@@ -200,7 +178,7 @@ def d_hospital():
         ORDER BY i.nome, d.nome
     ''').fetchall()
     return render_template('d_hospital.html',
-                                Diagnostico=diagnostico)
+                                Diagnostico=d_hospital)
 
 @APP.route('/Ambulatorios_Q/')
 def ambulatorios_quanti():
