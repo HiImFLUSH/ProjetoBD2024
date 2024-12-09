@@ -65,13 +65,8 @@ def instituicao():
     instituicao = db.execute('''
         SELECT i.nome, COUNT(c.ID) AS n_reports 
         FROM Instituicao i
-<<<<<<< HEAD
-        NATURAL JOIN ClinicStats
-        GROUP BY nome --- não funciona isto não reponde ha pregunta 
-=======
         NATURAL JOIN ClinicStats c
         GROUP BY nome
->>>>>>> 724e5557006e4e70a5311c5522f488b353bafde2
     ''').fetchall()
     return render_template('instituicao.html',
                             Instituicao=instituicao)
@@ -127,14 +122,8 @@ def p_interna():
         FROM ClinicStats c
         JOIN Paciente p ON c.IDP = p.IDP
         JOIN Diagnostico d ON c.ID = d.ID
-<<<<<<< HEAD
-        JOIN AvgInt ON c.IDP = AvgInt.IDP
-        WHERE c.internamentos > AvgInt.MedGlob
-        ORDER BY Faixa_Etaria, Diagnostico    ----- falta que as reposta agrupem os diganosticos por genero e numero de internamnetos 
-=======
         GROUP BY d.nome, p.faixaEtaria 
         ORDER BY Faixa_Etaria ASC
->>>>>>> 724e5557006e4e70a5311c5522f488b353bafde2
     ''').fetchall()
     return render_template('p_internacoes.html',
                            Pacientes=p_internacoes)
