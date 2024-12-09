@@ -28,16 +28,17 @@ def index():
 
 @APP.route('/ClinicStats/')
 def listar_clinicstats():
-    #que pregunta é esta ??????????
+    #que pregunta é esta ?????????? - 
+    #nao sei quem fez mas acho que está a listar o diagnostico de cada hospital com os dias de inter., ambu., obi. e inter.
     clinicstats = db.execute('''
     SELECT 
-        i.nome AS institution_name,
-        d.nome AS illness_name,
-        COUNT(DISTINCT d.id) AS num_different_illnesses,
-        SUM(c.internamentos) AS total_internamentos,
-        MAX(c.diasInternamento) AS max_dias_internamento,
-        SUM(c.ambulatorio) AS total_ambulatorio,
-        SUM(c.obitos) AS total_obitos
+        i.nome AS Hospital,
+        d.nome AS Diagnostico,
+        COUNT(DISTINCT d.id) AS Num_DiagDif,
+        SUM(c.internamentos) AS Total_Internamentos,
+        MAX(c.diasInternamento) AS Max_Dias_Internamento,
+        SUM(c.ambulatorio) AS Total_Ambulatorio,
+        SUM(c.obitos) AS Total_Obitos
     FROM 
         ClinicStats c
     JOIN 
