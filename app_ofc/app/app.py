@@ -9,6 +9,7 @@ APP = Flask(__name__)
 # Start page
 @APP.route('/')
 def index():
+    #primeira queria que vai para o display inicial
     stats = db.execute('''
        SELECT * FROM
             (SELECT COUNT(*) as n_period FROM Periodo)
@@ -27,6 +28,7 @@ def index():
 
 @APP.route('/ClinicStats/')
 def listar_clinicstats():
+    #que pregunta é esta ??????????
     clinicstats = db.execute('''
     SELECT 
         i.nome AS institution_name,
@@ -51,7 +53,7 @@ def listar_clinicstats():
 
 @APP.route('/Regiao/')
 def regiao():
-    # Obtém quantos hospitais ha numa regiao
+    # Obtém quantos hospitais ha numa regiao numero no relatorio?????
     regiao = db.execute('''
         SELECT regiao, COUNT(nome) AS n_hospitais 
         FROM Instituicao 
