@@ -2,15 +2,13 @@
   {% block content %}
 
       <h1> Região</h1>
-
      <table>
   <tr>
     <th>nome</th>
   </tr>
-   {% for r in Regiao %}
+   {% for r in regiao %}
   <tr>
-    <td>{r.nome}</td> 
-    <td>{r.n_hospitais}</td> 
+    <td>{{ r.nome }}</td>  
   </tr>
   {% endfor %}
 </table>

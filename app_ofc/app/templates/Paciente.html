@@ -8,13 +8,13 @@
      <table>
   <tr>
     <th>idp</th>
-    <th>faixaEtaria</th>
-    <th>genero</th>
+    <th>FaixaEtaria</th>
+    <th>Genero</th>
   </tr>
-   {% for p in Paciente %}
+   {% for p in paciente %}
   <tr>
     <td>{{ p.idp }}</td>
-    <td>{p.faixaEtaria}</td>
+    <td>{{ p.faixaEtaria }}</td>
     <td>{{ p.genero }}</td>
   </tr>
   {% endfor %}

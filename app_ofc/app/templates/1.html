@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <table>
+      <tr>
+          <th>Periodo</th>
+          <th>Instituição</th>
+          <th>Região</th>
+          <th>Diagnósticos</th>
+          <th>Paciente</th>
+          <th>Clinic Stats</th>
+      </tr>
+      <tr>
+          <td>{{ stats.n_period }}</td>
+          <td>{{ stats.n_int }}</td>
+          <td>{{ stats.n_reg }}</td>
+          <td>{{ stats.n_diag }}</td>
+          <td>{{ stats.n_pac }}</td>
+          <td>{{ stats.n_inter }}</td>
+      </tr>
+  </table>
+    {% endblock %}

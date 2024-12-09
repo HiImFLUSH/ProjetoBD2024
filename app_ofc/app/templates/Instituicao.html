@@ -9,11 +9,10 @@
     <th>nome</th>
     <th>regiao</th>
   </tr>
-   {% for c in ClinicStats %}
+   {% for i in instituição %}
   <tr>
-    <td>{{ c.id }}</td>
-    <td><a href="/concelhos/{{ c.codigo }}/">{{ c.codigo}}</a></td>
-  </tr>
+    <td>{{ i.nome }}</td>
+    <td>{{ i.regiao }}</td>
   {% endfor %}
 </table>
 {% endblock %}

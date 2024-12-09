@@ -13,16 +13,16 @@
     <th>internamnetos</th>
     <th>dias de internamnetos</th>
   </tr>
-    {% for c in ClinicStats %}
+    {% for c in clinic %}
   <tr>
-    <td>{{ c.id }}</td>
-    <td><a href="/concelhos/{{ c.codigo }}/">{{ c.codigo}}</a></td>
-    <td>{{ c.descrição }}</td>
-    <td>{{ c.id }}</td>
-    <td>{{ c.id }}</td>
-    <td>{{ c.id }}</td>
-    <td>{{ c.id }}</td>
-    <td>{{ c.id }}</td>
+    <td>{{ c.data }}</td>
+    <td>{{ c.idp }}</td>
+    <td>{{ c.idp}}</td>
+    <td>{{ c.instituicao }}</td>
+    <td>{{ c.obitos }}</td>
+    <td>{{ c.ambularotios }}</td>
+    <td>{{ c.internamnetos }}</td>
+    <td>{{ c.diasInternamneto }}</td>
   </tr>
   {% endfor %}
 </table>

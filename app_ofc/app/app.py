@@ -6,6 +6,62 @@ import db
 
 APP = Flask(__name__)
 
+
+@APP.route('/')
+def index():
+    #tabela de pacientes 
+    stats = db.execute('''
+       SELECT * 
+       from Paciente
+    ''').fetchone()
+    return render_template('Paciente.html',paciente=paciente)
+
+@APP.route('/')
+def index():
+    #tabela de periodo
+    stats = db.execute('''
+       SELECT * 
+       from Periodo
+    ''').fetchone()
+    return render_template('Periodo.html',periodo=periodo)
+
+@APP.route('/')
+def index():
+    #tabela de regiao
+    stats = db.execute('''
+       SELECT * 
+       from Regiao
+    ''').fetchone()
+    return render_template('Regiao.html',regiao=regiao)
+
+    @APP.route('/')
+def index():
+    #tabela de diagnostico 
+    stats = db.execute('''
+       SELECT * 
+       from diagnostico
+    ''').fetchone()
+    return render_template('Diagnostico.html',diaganostico=diaganostico)
+
+        @APP.route('/')
+def index():
+    #tabela de Instituicao 
+    stats = db.execute('''
+       SELECT * 
+       from instituicao
+    ''').fetchone()
+    return render_template('Instituicao.html',instituicao=instituicao)
+
+            @APP.route('/')
+def index():
+    #tabela de clinic 
+    stats = db.execute('''
+       SELECT * 
+       from Clinic_Stats
+    ''').fetchone()
+    return render_template('Clinic_Stats.html',clinic=clinic)
+
+    
 # Start page
 @APP.route('/')
 def index():
