@@ -115,7 +115,7 @@ def o_instituicao():
     return render_template('o_instituicao.html',
                            Obitos=o_instituicao)
 
-@APP.route('/Pacientes_Internacao')
+@APP.route('/Pacientes_Internacao/')
 def p_interna():
     # Pacientes com diagnosticos que resultaram em maior numero de internações por faixa etaria 
     p_internacoes = db.execute('''
@@ -128,3 +128,18 @@ def p_interna():
     ''').fetchall()
     return render_template('p_internacoes.html',
                            Pacientes=p_internacoes)
+
+@APP.route('/Diagnostico_Hospital/')
+def d_hospital():
+    # Todos os diagnosticos sem internamentos em cada hospital
+    d_hospital = db.execute('''
+        SELECT i.nome AS Hospital, d.nome AS Diagnostico, c.internamentos AS Internamentos
+        FROM Instituicao i
+        CROSS JOIN Diagnostico d
+        LEFT JOIN ClinicStats c ON i.nome = c.ID AND d.ID = c.ID
+        GROUP BY i.nome, d.nome
+        HAViNG COUNT(c.internamentos) = 0
+        ORDER BY i.nome, d.nome
+    ''').fetchall()
+    return render_template('d_hospital.html',
+                                Diagnostico=diagnostico)
