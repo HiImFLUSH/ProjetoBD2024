@@ -57,8 +57,7 @@ def regiao():
         FROM Instituicao 
         GROUP BY regiao
     ''').fetchall()
-    return render_template('regiao.html',
-                            Regiao=regiao)
+    return render_template('regiao.html', Regiao=regiao)
 
 @APP.route('/Instituicao/<String:nome>/')
 def instituicao():
@@ -67,7 +66,7 @@ def instituicao():
         SELECT i.nome, COUNT(c.ID) AS n_reports 
         FROM Instituicao i
         NATURAL JOIN ClinicStats
-        GROUP BY nome
+        GROUP BY nome --- não funciona isto não reponde ha pregunta 
     ''').fetchall()
     return render_template('instituicao.html',
                             Instituicao=instituicao)
@@ -111,7 +110,7 @@ def o_instituicao():
         JOIN Diagnostico d
         WHERE obitos IS NOT NULL 
         GROUP BY r.nome, c.data, i.nome
-        ORDER BY r.nome, c.data, Obitos DESC;
+        ORDER BY r.nome, c.data, Obitos DESC; ---- demora muito stempo temos que as dividir em partes 
     ''').fetchall()
     return render_template('o_instituicao.html',
                            Obitos=o_instituicao)
@@ -130,7 +129,7 @@ def p_interna():
         JOIN Diagnostico d ON c.ID = d.ID
         JOIN AvgInt ON c.IDP = AvgInt.IDP
         WHERE c.internamentos > AvgInt.MedGlob
-        ORDER BY Faixa_Etaria, Diagnostico
+        ORDER BY Faixa_Etaria, Diagnostico    ----- falta que as reposta agrupem os diganosticos por genero e numero de internamnetos 
     ''').fetchall()
     return render_template('p_internacoes.html',
                            Pacientes=p_internacoes)
