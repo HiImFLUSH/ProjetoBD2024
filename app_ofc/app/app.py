@@ -69,42 +69,26 @@ def index4():
 def index():
     #primeira queria que vai para o display inicial
     stats = db.execute('''
-       SELECT * FROM
-            (SELECT COUNT(*) as n_period FROM Periodo)
-        JOIN
-            (SELECT COUNT(*) as n_inter FROM ClinicStats)
-        JOIN
-            (SELECT COUNT(*) as n_pac FROM Paciente)
-        JOIN
-            (SELECT COUNT(*) as n_diag FROM Diagnostico)
-        JOIN
-            (SELECT COUNT(*) as n_inst FROM Instituicao)
-        JOIN
-            (SELECT COUNT(*) as n_reg FROM Regiao)
+       SELECT * FROM(SELECT COUNT(*) as n_period FROM Periodo)
+        JOIN(SELECT COUNT(*) as n_inter FROM ClinicStats)
+        JOIN(SELECT COUNT(*) as n_pac FROM Paciente)
+        JOIN(SELECT COUNT(*) as n_diag FROM Diagnostico)
+        JOIN(SELECT COUNT(*) as n_inst FROM Instituicao)
+        JOIN(SELECT COUNT(*) as n_reg FROM Regiao)
     ''').fetchone()
     return render_template('index.html',stats=stats)
 
 @APP.route('/DiagnosticosPorHospital/')
 def one():
     stuff = db.execute('''
-    SELECT 
-        i.nome AS Hospital,
-        d.nome AS Diagnostico,
-        COUNT(DISTINCT d.id) AS Num_DiagDif,
-        SUM(c.internamentos) AS Total_Internamentos,
-        MAX(c.diasInternamento) AS Max_Dias_Internamento,
-        SUM(c.ambulatorio) AS Total_Ambulatorio,
-        SUM(c.obitos) AS Total_Obitos
-    FROM 
-        ClinicStats c
-    JOIN 
-        Diagnostico d ON c.id = d.id
-    JOIN 
-        Instituicao i ON c.instituicao = i.nome
-    GROUP BY 
-        i.nome, d.nome
-    ORDER BY 
-        i.nome ASC, d.nome ASC
+    SELECT i.nome AS Hospital,d.nome AS Diagnostico,COUNT(DISTINCT d.id) AS Num_DiagDif,
+        SUM(c.internamentos) AS Total_Internamentos,MAX(c.diasInternamento) AS Max_Dias_Internamento,
+        SUM(c.ambulatorio) AS Total_Ambulatorio,SUM(c.obitos) AS Total_Obitos
+    FROM ClinicStats c
+    JOIN Diagnostico d ON c.id = d.id
+    JOIN Instituicao i ON c.instituicao = i.nome
+    GROUP BY i.nome, d.nome
+    ORDER BY i.nome ASC, d.nome ASC
     ''').fetchall()
     return render_template('Diag_Hosp.html', stuff=stuff)
 
@@ -114,24 +98,15 @@ def instituicao(nome):
     # Obtém clinicstats por hospital
     nome = urllib.parse.unquote(nome)
     instituicao = db.execute('''
-    SELECT 
-        d.nome AS Diagnostico,
-        SUM(c.internamentos) AS Total_Internamentos,
-        MAX(c.diasInternamento) AS Max_Dias_Internamento,
-        SUM(c.ambulatorio) AS Total_Ambulatorio,
+    SELECT d.nome AS Diagnostico,SUM(c.internamentos) AS Total_Internamentos,
+        MAX(c.diasInternamento) AS Max_Dias_Internamento,SUM(c.ambulatorio) AS Total_Ambulatorio,
         SUM(c.obitos) AS Total_Obitos
-    FROM 
-        ClinicStats c
-    JOIN 
-        Diagnostico d ON c.id = d.id
-    JOIN 
-        Instituicao i ON c.instituicao = i.nome
-    WHERE 
-        i.nome like ?
-    GROUP BY 
-        i.nome, d.nome
-    ORDER BY 
-        d.nome ASC
+    FROM ClinicStats c
+    JOIN Diagnostico d ON c.id = d.id
+    JOIN Instituicao i ON c.instituicao = i.nome
+    WHERE i.nome like ?
+    GROUP BY i.nome, d.nome
+    ORDER BY d.nome ASC
     ''', [nome]).fetchall()
 
     regiao =  db.execute('''
@@ -153,8 +128,7 @@ def r_diagnostico():
         GROUP BY r.nome
         ORDER BY Obitos DESC, Internamentos, Ambulatório, diasInternamento
     ''').fetchall()
-    return render_template('regiao_d.html',
-                            diagnostico=r_diagnostico)
+    return render_template('regiao_d.html',diagnostico=r_diagnostico)
 
 @APP.route('/Obitos_Instituicao/')
 def o_instituicao():
@@ -167,10 +141,9 @@ def o_instituicao():
         JOIN Periodo p ON c.data = p.data
         JOIN Diagnostico d ON c.ID = d.ID
         GROUP BY r.nome, c.data, i.nome
-        ORDER BY r.nome, c.data, Obitos DESC; ---- demora muito stempo temos que as dividir em partes 
+        ORDER BY r.nome, c.data, Obitos DESC; 
     ''').fetchall()
-    return render_template('Obitos_Instituicao.html',
-                           obitos=o_instituicao)
+    return render_template('Obitos_Instituicao.html',obitos=o_instituicao)
 
 @APP.route('/Pacientes_Internacao/')
 def p_interna():
@@ -183,8 +156,7 @@ def p_interna():
         GROUP BY d.nome, p.faixaEtaria 
         ORDER BY Faixa_Etaria ASC
     ''').fetchall()
-    return render_template('p_internacoes.html',
-                           Pacientes=p_internacoes)
+    return render_template('p_internacoes.html',Pacientes=p_internacoes)
 
 @APP.route('/Diagnostico_Hospital/')
 def d_hospital():
@@ -198,8 +170,7 @@ def d_hospital():
         HAViNG COUNT(c.internamentos) = 0
         ORDER BY i.nome, d.nome
     ''').fetchall()
-    return render_template('Diag_Hosp.html',
-                                Diagnostico=d_hospital)
+    return render_template('Diag_Hosp.html',Diagnostico=d_hospital)
 
 @APP.route('/Ambulatorios_Q/')
 def ambulatorios_quanti():
@@ -213,29 +184,18 @@ def ambulatorios_quanti():
         GROUP BY d.nome, p.faixaEtaria
         ORDER BY Faixa_Etaria, Ambulatorios, Internamentos DESC;
     ''').fetchall()
-    return render_template('ambulatorios_quanti.html',
-                                Ambulatorios=ambulatorios_quanti)
+    return render_template('ambulatorios_quanti.html',Ambulatorios=ambulatorios_quanti)
 
 @APP.route('/listar/')
 def oneQuery():
     clinicstats = db.execute('''
-    SELECT 
-        i.nome AS Hospital,
-        d.nome AS Diagnostico,
-        SUM(c.internamentos) AS Total_Internamentos,
-        MAX(c.diasInternamento) AS Max_Dias_Internamento,
-        SUM(c.ambulatorio) AS Total_Ambulatorio,
-        SUM(c.obitos) AS Total_Obitos
-    FROM 
-        ClinicStats c
-    JOIN 
-        Diagnostico d ON c.id = d.id
-    JOIN 
-        Instituicao i ON c.instituicao = i.nome
-    GROUP BY 
-        i.nome, d.nome
-    ORDER BY 
-        i.nome ASC, d.nome ASC
+    SELECT i.nome AS Hospital,d.nome AS Diagnostico,SUM(c.internamentos) AS Total_Internamentos,
+        MAX(c.diasInternamento) AS Max_Dias_Internamento,SUM(c.ambulatorio) AS Total_Ambulatorio,SUM(c.obitos) AS Total_Obitos
+    FROM ClinicStats c
+    JOIN Diagnostico d ON c.id = d.id
+    JOIN Instituicao i ON c.instituicao = i.nome
+    GROUP BY i.nome, d.nome
+    ORDER BY i.nome ASC, d.nome ASC
     ''').fetchall()
     return render_template("listar.html", clinicstats=clinicstats)
 
@@ -253,17 +213,13 @@ def diagpac():
         JOIN Diagnostico d ON c.ID = d.ID
         WHERE c.internamentos > (
         SELECT AVG(internamentos)
-        FROM ClinicStats
-        )
-        )
+        FROM ClinicStats ))
         SELECT Paciente, Diagnostico, Faixa_Etaria, Internamentos
         FROM RankedInternamentos
         WHERE Rank = 1
         ORDER BY Faixa_Etaria ASC, Diagnostico ASC;
     ''').fetchall()
     return render_template("Diag_Pac.html", stats=stats)
-
-
 
 @APP.route('/nadafeito/')
 def naday():
@@ -284,9 +240,7 @@ def rankedObitos():
     # Numero de ambulatorios em relação ao diagnostico
     stats = db.execute('''
         WITH ProporcaoObitos AS (
-    SELECT r.nome AS Regiao,
-           SUM(c.obitos) AS Total_Obitos,
-           SUM(c.internamentos) AS Total_Internamentos,
+    SELECT r.nome AS Regiao,SUM(c.obitos) AS Total_Obitos,SUM(c.internamentos) AS Total_Internamentos,
            CAST(SUM(c.obitos) AS FLOAT) / NULLIF(SUM(c.internamentos), 0) AS Proporcao
     FROM ClinicStats c join instituicao i on c.instituicao=i.nome
     JOIN Regiao r on i.regiao=r.nome
@@ -296,11 +250,7 @@ MediaGlobal AS (
     SELECT AVG(Proporcao) AS Media_Proporcao_Global
     FROM ProporcaoObitos
 )
-SELECT p.Regiao,
-       p.Total_Obitos,
-       p.Total_Internamentos,
-       p.Proporcao,
-       m.Media_Proporcao_Global
+SELECT p.Regiao,p.Total_Obitos,p.Total_Internamentos,p.Proporcao,m.Media_Proporcao_Global
 FROM ProporcaoObitos p
 CROSS JOIN MediaGlobal m
 ORDER BY p.Proporcao DESC;
@@ -314,36 +264,19 @@ def obitosInst():
     # Periodo com o maior Nº de Óbitos por Instituição 
     stats = db.execute('''
 WITH t AS (
-    SELECT 
-        i.nome AS Hospital,
-        c.data AS Data,
-        SUM(c.obitos) AS Total_Obitos
-    FROM 
-        ClinicStats c
-    JOIN 
-        Instituicao i ON c.instituicao = i.nome
-    GROUP BY 
-        i.nome, c.data
-),
+    SELECT i.nome AS Hospital,c.data AS Data,SUM(c.obitos) AS Total_Obitos
+    FROM ClinicStats c
+    JOIN Instituicao i ON c.instituicao = i.nome
+    GROUP BY i.nome, c.data),
 ranked AS (
-    SELECT 
-        t.Hospital, 
-        t.Data, 
-        t.Total_Obitos,
-        ROW_NUMBER() OVER (PARTITION BY t.Hospital ORDER BY t.Total_Obitos DESC) AS rn
-    FROM 
-        t
-)
-SELECT 
-    Hospital, 
-    Data, 
-    Total_Obitos
-FROM 
-    ranked
-WHERE 
-    rn = 1; ''').fetchall()
+    SELECT t.Hospital, t.Data, t.Total_Obitos,
+    ROW_NUMBER() OVER (PARTITION BY t.Hospital ORDER BY t.Total_Obitos DESC) AS rn
+    FROM t)
+SELECT Hospital, Data, Total_Obitos
+FROM ranked
+WHERE rn = 1; 
+                       ''').fetchall()
     return render_template('pergunta8.html',stats=stats)
-
 
 @APP.route('/hpor/')
 def hpor():
@@ -351,5 +284,5 @@ def hpor():
 SELECT regiao, COUNT(nome) AS n_hospitais
 FROM Instituicao
 group by regiao
-    ''').fetchall()
+    ''').fetchall() 
     return render_template("hpor.html", hpor=stats)
