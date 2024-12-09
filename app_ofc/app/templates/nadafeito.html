@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <table>
+      <tr>
+          <th>Instituicao</th>
+          <th>Diagnósticos</th>
+          <th>Nome</th>
+      </tr>
+      {% for o in nada %}
+      <tr>
+          <td>{{ o.Instituicao_ID }}</td>
+          <td>{{ o.Diagnostico_ID }}</td>
+          <td>{{ o.Diagnostico_Nome }}</td>
+      </tr>
+      {% endfor %}
+  </table>
+    {% endblock %}

@@ -264,3 +264,47 @@ def diagpac():
     return render_template("Diag_Pac.html", stats=stats)
 
 
+
+@APP.route('/nadafeito/')
+def naday():
+    nada = db.execute('''
+SELECT c.Instituicao AS Instituicao_ID,
+c.ID AS Diagnostico_ID,
+d.nome AS Diagnostico_Nome
+FROM ClinicStats c
+JOIN Diagnostico d ON c.ID = d.ID
+GROUP BY c.ID, d.nome, c.Instituicao
+HAVING SUM(c.internamentos) = 0
+ORDER BY Instituicao_ID;
+    ''').fetchall()
+    return render_template("nadafeito.html", nada=nada)
+
+@APP.route('/pergunta9/')
+def rankedObitos():
+    # Numero de ambulatorios em relação ao diagnostico
+    stats = db.execute('''
+        WITH ProporcaoObitos AS (
+    SELECT r.nome AS Regiao,
+           SUM(c.obitos) AS Total_Obitos,
+           SUM(c.internamentos) AS Total_Internamentos,
+           CAST(SUM(c.obitos) AS FLOAT) / NULLIF(SUM(c.internamentos), 0) AS Proporcao
+    FROM ClinicStats c join instituicao i on c.instituicao=i.nome
+    JOIN Regiao r on i.regiao=r.nome
+    GROUP BY r.nome
+),
+MediaGlobal AS (
+    SELECT AVG(Proporcao) AS Media_Proporcao_Global
+    FROM ProporcaoObitos
+)
+SELECT p.Regiao,
+       p.Total_Obitos,
+       p.Total_Internamentos,
+       p.Proporcao,
+       m.Media_Proporcao_Global
+FROM ProporcaoObitos p
+CROSS JOIN MediaGlobal m
+ORDER BY p.Proporcao DESC;
+    ''').fetchall()
+    return render_template('pergunta9.html',
+                                stats=stats)
+

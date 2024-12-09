@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1> Óbitos e Proporção por Região </h1>
+o
+<table>
+  <tr>
+    <th> Região </th>
+    <th> Nº Total de Óbitos </th>
+    <th> Nº Total de Internamentos </th>
+    <th> Proporção óbitos/Internamento </th>
+    <th> Proporção Global </th>
+  </tr>
+  {% for s in stats %}
+  <tr>
+    <td>{{ s.Regiao }}</td>
+    <td>{{ s.Total_Obitos }}</td>
+    <td>{{ s.total_Internamentos }}</td>
+    <td>{{ s.Proporcao }}</td>
+    <td>{{ s.Media_Proporcao_Global }}</td>
+  {% endfor %}
+</table>
+
+{% endblock %}
