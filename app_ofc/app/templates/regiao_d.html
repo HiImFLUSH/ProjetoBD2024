@@ -1,0 +1,24 @@
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Periodo</h1>
+     <table>
+  <tr>
+    <th>nome</th>
+    <th>obitos</th>
+    <th> internamnetos</th>
+    <th>ambulatorio</th>
+    <th>diasInternamneto</th>
+  </tr>
+   {% for r in diagnostico %}
+  <tr>
+    <td>{{ p.data }}</td>
+     <td>{{ p.nome }}</th>
+    <th>{{ p.obitos }}</th>
+    <th> {{ p.internamnetos }}</th>
+    <th>{{ p.ambulatorio }}</th>
+    <th>{{ p.diasInternamneto }}</th>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
