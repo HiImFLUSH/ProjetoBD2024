@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+  {% block content %}
+
+      <h1>Clinic Stats</h1>
+<table>
+  <tr>
+    <th>
+    <data value=""></data>
+    </th>
+    <th>
+      Instituicao
+    </th>
+    <th>
+      Doença
+    </th>
+    <th>
+      tretas
+    </th>
+      <th>
+      total internamento
+    </th>
+      <th>
+      maximo dias de internamento
+    </th>
+    <th>
+      totalambulatório
+    </th>
+    <th>
+      total de óbitos
+    </th>
+  </tr>
+    {% for c in clinicstats %}
+  <tr>
+    <td>
+      {{ c.institution_name }}
+    </td>
+    <td>
+      {{ c.illness_name }}
+    </td>
+     <td>
+      {{ c.num_different_illnesses }}
+    </td>
+     <td>
+      {{ c.total_internamentos }}
+    </td>
+     <td>
+      {{ c.max_dias_internamento }}
+    </td>
+     <td>
+      {{ c.total_ambulatorio }}
+    </td>
+     <td>
+      {{ c.total_obitos }}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

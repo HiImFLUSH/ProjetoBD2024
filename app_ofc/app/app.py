@@ -27,28 +27,27 @@ def index():
 
 @APP.route('/ClinicStats/')
 def listar_clinicstats():
-    # 
     clinicstats = db.execute('''
-SELECT 
-    i.nome AS institution_name,               -- Institution name
-    d.nome AS illness_name,                   -- Illness name
-    COUNT(DISTINCT d.id) AS num_different_illnesses,  -- Count of different illnesses
-    SUM(c.internamentos) AS total_internamentos,      -- Total of internamentos
-    MAX(c.diasInternamento) AS max_dias_internamento, -- Max of diasInternamento
-    SUM(c.ambulatorio) AS total_ambulatorio,          -- Total of ambulatorio
-    SUM(c.obitos) AS total_obitos                     -- Total of obitos
-FROM 
-    ClinicStats c
-JOIN 
-    Diagnostico d ON c.id = d.id                      -- Join ClinicStats with Diagnostico
-JOIN 
-    Instituicao i ON c.instituicao = i.nome           -- Join ClinicStats with Instituicao
-GROUP BY 
-    i.nome, d.nome                                    -- Group by institution and illness
-ORDER BY 
-    i.nome ASC, d.nome ASC;  
+    SELECT 
+        i.nome AS institution_name,
+        d.nome AS illness_name,
+        COUNT(DISTINCT d.id) AS num_different_illnesses,
+        SUM(c.internamentos) AS total_internamentos,
+        MAX(c.diasInternamento) AS max_dias_internamento,
+        SUM(c.ambulatorio) AS total_ambulatorio,
+        SUM(c.obitos) AS total_obitos
+    FROM 
+        ClinicStats c
+    JOIN 
+        Diagnostico d ON c.id = d.id
+    JOIN 
+        Instituicao i ON c.instituicao = i.nome
+    GROUP BY 
+        i.nome, d.nome
+    ORDER BY 
+        i.nome ASC, d.nome ASC
     ''').fetchall()
-    return render_template('listar_clinicstats.html', ClinicStats=clinicstats)
+    return render_template('listar_clinicstats.html', clinicstats=clinicstats)
 
 @APP.route('/Regiao/')
 def regiao():
