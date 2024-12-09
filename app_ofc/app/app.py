@@ -84,13 +84,11 @@ def index():
 
 @APP.route('/1/')
 def oneQuery():
-    #que pregunta é esta ?????????? - 
-    #nao sei quem fez mas acho que está a listar o diagnostico de cada hospital com os dias de inter., ambu., obi. e inter.
+    
     clinicstats = db.execute('''
     SELECT 
         i.nome AS Hospital,
         d.nome AS Diagnostico,
-        COUNT(DISTINCT d.id) AS Num_DiagDif,
         SUM(c.internamentos) AS Total_Internamentos,
         MAX(c.diasInternamento) AS Max_Dias_Internamento,
         SUM(c.ambulatorio) AS Total_Ambulatorio,

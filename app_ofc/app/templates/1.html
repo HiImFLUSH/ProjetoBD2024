@@ -10,14 +10,15 @@
           <th>Paciente</th>
           <th>Clinic Stats</th>
       </tr>
-      {% for stats in stats %}
+      {% for stat in stats %}
       <tr>
-          <td>{{ stats.n_period }}</td>
-          <td>{{ stats.n_int }}</td>
-          <td>{{ stats.n_reg }}</td>
-          <td>{{ stats.n_diag }}</td>
-          <td>{{ stats.n_pac }}</td>
-          <td>{{ stats.n_inter }}</td>
+          <td>{{ stat.n_period }}</td>
+          <td>{{ stat.n_int }}</td>
+          <td>{{ stat.n_reg }}</td>
+          <td>{{ stat.n_diag }}</td>
+          <td>{{ stat.n_pac }}</td>
+          <td>{{ stat.n_inter }}</td>
       </tr>
+      {% endfor %}
   </table>
-    {% endblock %}
+{% endblock %}
