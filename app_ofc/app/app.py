@@ -3,6 +3,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 from flask import render_template, Flask
 import logging
 import db
+import urllib.parse
 
 APP = Flask(__name__)
 
@@ -84,7 +85,7 @@ def index():
     return render_template('index.html',stats=stats)
 
 @APP.route('/DiagnosticosPorHospital/')
-def oneQuery():
+def one():
     stuff = db.execute('''
     SELECT 
         i.nome AS Hospital,
@@ -111,21 +112,7 @@ def oneQuery():
 @APP.route('/Instituicao/<string:nome>/')
 def instituicao(nome):
     # Obtém clinicstats por hospital
-    inCode = False
-    newNome = ""
-    for i in range(len(nome)):
-        r = nome[i]
-        if inCode:
-            if nome[i] != "2" and nome[i] != "0":
-                inCode = False
-            pass
-        if nome[i] == "%":
-            if nome[i+1] == "2" and nome[i+2] == "0":
-                inCode = True
-                r = " "
-        newNome.append(r)
-        
-        
+    nome = urllib.parse.unquote(nome)
     instituicao = db.execute('''
     SELECT 
         d.nome AS Diagnostico,
@@ -145,12 +132,13 @@ def instituicao(nome):
         i.nome, d.nome
     ORDER BY 
         d.nome ASC
-    ''', [newNome]).fetchall()
+    ''', [nome]).fetchall()
+
     regiao =  db.execute('''
     SELECT regiao
     FROM Instituicao
     WHERE Instituicao.nome like ?
-    ''', [newNome]).fetchone()
+    ''', [nome]).fetchone()
     return render_template('Instituicao.html', instituicao=instituicao, nome=nome, regiao=regiao)
 
 
@@ -165,7 +153,7 @@ def r_diagnostico():
         GROUP BY r.nome
         ORDER BY Obitos DESC, Internamentos, Ambulatório, diasInternamento
     ''').fetchall()
-    return render_template('Regiao_Diag.html',
+    return render_template('regiao_d.html',
                             diagnostico=r_diagnostico)
 
 @APP.route('/Obitos_Instituicao/')
@@ -181,7 +169,7 @@ def o_instituicao():
         GROUP BY r.nome, c.data, i.nome
         ORDER BY r.nome, c.data, Obitos DESC; ---- demora muito stempo temos que as dividir em partes 
     ''').fetchall()
-    return render_template('o_instituicao.html',
+    return render_template('Obitos_Instituicao.html',
                            obitos=o_instituicao)
 
 @APP.route('/Pacientes_Internacao/')
@@ -210,7 +198,7 @@ def d_hospital():
         HAViNG COUNT(c.internamentos) = 0
         ORDER BY i.nome, d.nome
     ''').fetchall()
-    return render_template('d_hospital.html',
+    return render_template('Diag_Hosp.html',
                                 Diagnostico=d_hospital)
 
 @APP.route('/Ambulatorios_Q/')
@@ -227,3 +215,27 @@ def ambulatorios_quanti():
     ''').fetchall()
     return render_template('ambulatorios_quanti.html',
                                 Ambulatorios=ambulatorios_quanti)
+
+
+@APP.route('/1/')
+def oneQuery():
+    clinicstats = db.execute('''
+    SELECT 
+        i.nome AS Hospital,
+        d.nome AS Diagnostico,
+        SUM(c.internamentos) AS Total_Internamentos,
+        MAX(c.diasInternamento) AS Max_Dias_Internamento,
+        SUM(c.ambulatorio) AS Total_Ambulatorio,
+        SUM(c.obitos) AS Total_Obitos
+    FROM 
+        ClinicStats c
+    JOIN 
+        Diagnostico d ON c.id = d.id
+    JOIN 
+        Instituicao i ON c.instituicao = i.nome
+    GROUP BY 
+        i.nome, d.nome
+    ORDER BY 
+        i.nome ASC, d.nome ASC
+    ''').fetchall()
+    return render_template('1.html', clinicstats=clinicstats)

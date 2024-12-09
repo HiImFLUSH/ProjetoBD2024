@@ -1,18 +1,24 @@
 
-  {% extends 'base.html' %}
-  {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 
-
-     <h1> Instituição</h1>
-     <table>
+<h1> {{ nome }}</h1>
+<h2> Região:{{regiao.regiao}} </h2>
+<table>
   <tr>
-    <th>nome</th>
-    <th>regiao</th>
+    <th> Diagnóstico </th>
+    <th> Nº de Internamentos </th>
+    <th> Máximo Nº de Dias de Internamento </th>
+    <th> Nº de Ambulatórios </th>
+    <th> Nº de Óbitos </th>
   </tr>
-   {% for i in instituição %}
+  {% for i in instituicao %}
   <tr>
-    <td>{{ i.nome }}</td>
-    <td>{{ i.regiao }}</td>
+    <td>{{ i.Diagnostico }}</td>
+    <td>{{ i.Total_Internamentos }}</td>
+    <td>{{ i.Max_Dias_Internamento }}</td>
+    <td>{{ i.Total_Ambulatorio }}</td>
+    <td>{{ i.Total_Obitos }}</td>
   {% endfor %}
 </table>
 {% endblock %}
