@@ -117,7 +117,7 @@ def o_instituicao():
 
 @APP.route('/Pacientes_Internacao')
 def p_interna():
-    # Pacientes com diagnosticos que resultaram em internações superiores à média global
+    # Pacientes com diagnosticos que resultaram em maior numero de internações por faixa etaria 
     p_internacoes = db.execute('''
         SELECT d.nome AS Diagnostico, p.genero AS Genero, MAX(c.internamentos) AS Numero_Internamentos, p.faixaEtaria AS Faixa_Etaria
         FROM ClinicStats c
