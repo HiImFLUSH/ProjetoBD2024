@@ -1,0 +1,20 @@
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Paciente com Mais Internamentos para Cada Diagnóstico</h1>
+     <table>
+  <tr>
+    <th>ID do Paciente</th>
+    <th> Diagnóstico</th>
+    <th>Faixa Etária</th>
+    <th>Dias de Internamneto</th>
+  </tr>
+   {% for s in stats %}
+  <tr>
+    <td>{{ s.Paciente }}</td>
+    <td> {{ s.Diagnostico }}</td>
+    <td>{{ s.Faixa_Etaria }}</td>
+    <td>{{ s.Internamentos }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

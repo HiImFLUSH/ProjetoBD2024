@@ -9,14 +9,13 @@
     <th>ambulatorio</th>
     <th>diasInternamneto</th>
   </tr>
-   {% for p in r_diagnostico %}
+   {% for p in diagnostico %}
   <tr>
-    <td>{{ p.data }}</td>
-     <td>{{ p.nome }}</td>
-    <td>{{ p.obitos }}</td>
-    <td> {{ p.internamnetos }}</td>
-    <td>{{ p.ambulatorio }}</td>
-    <td>{{ p.diasInternamneto }}</td>
+    <td>{{ p.nome }}</td>
+    <td> {{ p.Obitos }}</td>
+    <td> {{ p.Internamentos }}</td>
+    <td>{{ p.Ambulatório }}</td>
+    <td>{{ p.diasInternamento }}</td>
   </tr>
   {% endfor %}
 </table>

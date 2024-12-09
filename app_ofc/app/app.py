@@ -35,14 +35,14 @@ def index1():
     ''').fetchall()
     return render_template('Regiao.html',regiao=stats)
 
-@APP.route('/Diagonostico/')
+@APP.route('/Diagnostico/')
 def index2():
     #tabela de diagnostico 
     stats = db.execute('''
        SELECT * 
        from diagnostico
     ''').fetchall()
-    return render_template('Diagnostico.html',diagonostico=stats)
+    return render_template('Diagnostico.html',diagnostico=stats)
 
 @APP.route('/Instituicao/')
 def index3():
@@ -59,7 +59,7 @@ def index4():
     #tabela de clinic 
     stats = db.execute('''
        SELECT * 
-       from Clinic_Stats
+       from ClinicStats
     ''').fetchall()
     return render_template('Clinic_Stats.html',clinic=stats)
 
@@ -142,7 +142,7 @@ def instituicao(nome):
     return render_template('Instituicao.html', instituicao=instituicao, nome=nome, regiao=regiao)
 
 
-@APP.route('/Regiao_Diagnostico/')
+@APP.route('/regiao_d/')
 def r_diagnostico():
     # Quais regiões possuem mais óbitos, internaçoes e ambulatórios
     r_diagnostico = db.execute('''
@@ -216,8 +216,7 @@ def ambulatorios_quanti():
     return render_template('ambulatorios_quanti.html',
                                 Ambulatorios=ambulatorios_quanti)
 
-
-@APP.route('/1/')
+@APP.route('/listar/')
 def oneQuery():
     clinicstats = db.execute('''
     SELECT 
@@ -238,4 +237,30 @@ def oneQuery():
     ORDER BY 
         i.nome ASC, d.nome ASC
     ''').fetchall()
-    return render_template('1.html', clinicstats=clinicstats)
+    return render_template("listar.html", clinicstats=clinicstats)
+
+@APP.route('/Diag_Pac/')
+def diagpac():
+    stats = db.execute('''
+        WITH RankedInternamentos AS (
+        SELECT p.IDP AS Paciente,
+        d.nome AS Diagnostico,
+        p.faixaEtaria AS Faixa_Etaria,
+        c.internamentos AS Internamentos,
+        ROW_NUMBER() OVER (PARTITION BY d.nome ORDER BY c.internamentos DESC) AS Rank
+        FROM ClinicStats c
+        JOIN Paciente p ON c.IDP = p.IDP
+        JOIN Diagnostico d ON c.ID = d.ID
+        WHERE c.internamentos > (
+        SELECT AVG(internamentos)
+        FROM ClinicStats
+        )
+        )
+        SELECT Paciente, Diagnostico, Faixa_Etaria, Internamentos
+        FROM RankedInternamentos
+        WHERE Rank = 1
+        ORDER BY Faixa_Etaria ASC, Diagnostico ASC;
+    ''').fetchall()
+    return render_template("Diag_Pac.html", stats=stats)
+
+
