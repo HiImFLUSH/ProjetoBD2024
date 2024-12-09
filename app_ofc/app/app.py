@@ -144,3 +144,18 @@ def d_hospital():
     ''').fetchall()
     return render_template('d_hospital.html',
                                 Diagnostico=diagnostico)
+
+@APP.route('/Ambulatorios_Q/')
+def ambulatorios_quanti():
+    # Numero de ambulatorios em relação ao diagnostico
+    ambulatorios_quanti = db.execute('''
+        SELECT d.nome AS Diagnostico, p.faixaEtaria AS Faixa_Etaria, COUNT(c.ambulatorio) AS Ambulatorios, SUM(c.internamentos) AS Internamentos,
+        (COUNT(c.ambulatorio) / SUM(c.internamentos)) AS AmbulatorioInternacao
+        FROM ClinicStats c
+        JOIN Diagnostico d ON c.id = d.id
+        JOIN Paciente p ON c.idp = p.idp
+        GROUP BY d.nome, p.faixaEtaria
+        ORDER BY Faixa_Etaria, Ambulatorios, Internamentos DESC;
+    ''').fetchall()
+    return render_template('ambulatorios_quanti.html',
+                                Ambulatorios=ambulatorios_quanti)
