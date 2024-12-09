@@ -1,4 +1,3 @@
-
   {% extends 'base.html' %}
   {% block content %}
 
@@ -6,15 +5,11 @@
 
      <table>
   <tr>
-    <th>
-      nome
-    </th>
+    <th>nome</th>
   </tr>
    {% for r in Regiao %}
   <tr>
-    <td>
-       {c.nome}
-    </td>  
+    <td>{c.nome}</td>  
   </tr>
   {% endfor %}
 </table>

@@ -7,30 +7,16 @@
 
 <table>
   <tr>
-    <th>
-      id
-    </th>
-    <th>
-      codigo
-    </th>
-    <th>
-      descrição
-    </th>
+    <th>id</th>
+    <th>codigo</th>
+    <th>descrição</th>
   </tr>
       {% for d in Diagnostico %}
   <tr>
-    <td>
-      {{ d.id }}
-    </td>
-    <td>
-      { d.cod}
-    </td>
-    <td>
-      {{ d.nome }}
-    </td>
-    
+    <td>{{ d.id }}</td>
+    <td>{ d.cod}</td>
+    <td>{{ d.nome }}</td>
   </tr>
   {% endfor %}
 </table>
-
 {% endblock %}

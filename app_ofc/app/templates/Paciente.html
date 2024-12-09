@@ -7,27 +7,15 @@
 
      <table>
   <tr>
-    <th>
-      idp
-    </th>
-    <th>
-      faixaEtaria
-    </th>
-    <th>
-      genero
-    </th>
+    <th>idp</th>
+    <th>faixaEtaria</th>
+    <th>genero</th>
   </tr>
    {% for p in Paciente %}
   <tr>
-    <td>
-      {{ p.idp }}
-    </td>
-    <td>
-      { p.faixaEtaria}
-    </td>
-    <td>
-      {{ p.genero }}
-    </td>
+    <td>{{ p.idp }}</td>
+    <td>{p.faixaEtaria}</td>
+    <td>{{ p.genero }}</td>
   </tr>
   {% endfor %}
 </table>

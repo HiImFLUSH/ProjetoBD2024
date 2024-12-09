@@ -4,57 +4,25 @@
       <h1>Clinic Stats</h1>
 <table>
   <tr>
-    <th>
-    <data value=""></data>
-    </th>
-    <th>
-      idp
-    </th>
-    <th>
-      id
-    </th>
-    <th>
-      Instituicao
-    </th>
-      <th>
-      obitos
-    </th>
-      <th>
-      ambulatorio
-    </th>
-    <th>
-      internamnetos
-    </th>
-    <th>
-      dias de internamnetos
-    </th>
+    <th><data value=""></data></th>
+    <th>idp</th>
+    <th>id</th>
+    <th>Instituicao </th>
+    <th>obitos</th>
+    <th>ambulatorio</th>
+    <th>internamnetos</th>
+    <th>dias de internamnetos</th>
   </tr>
     {% for c in ClinicStats %}
   <tr>
-    <td>
-      {{ c.id }}
-    </td>
-    <td>
-      <a href="/concelhos/{{ c.codigo }}/">{{ c.codigo}}</a>
-    </td>
-    <td>
-      {{ c.descrição }}
-    </td>
-     <td>
-      {{ c.id }}
-    </td>
-     <td>
-      {{ c.id }}
-    </td>
-     <td>
-      {{ c.id }}
-    </td>
-     <td>
-      {{ c.id }}
-    </td>
-     <td>
-      {{ c.id }}
-    </td>
+    <td>{{ c.id }}</td>
+    <td><a href="/concelhos/{{ c.codigo }}/">{{ c.codigo}}</a></td>
+    <td>{{ c.descrição }}</td>
+    <td>{{ c.id }}</td>
+    <td>{{ c.id }}</td>
+    <td>{{ c.id }}</td>
+    <td>{{ c.id }}</td>
+    <td>{{ c.id }}</td>
   </tr>
   {% endfor %}
 </table>
