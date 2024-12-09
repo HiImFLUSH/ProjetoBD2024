@@ -308,3 +308,39 @@ ORDER BY p.Proporcao DESC;
     return render_template('pergunta9.html',
                                 stats=stats)
 
+#Pergunta 8
+@APP.route('/pergunta8/')
+def obitosInst():
+    # Periodo com o maior Nº de Óbitos por Instituição 
+    stats = db.execute('''
+WITH t AS (
+    SELECT 
+        i.nome AS Hospital,
+        c.data AS Data,
+        SUM(c.obitos) AS Total_Obitos
+    FROM 
+        ClinicStats c
+    JOIN 
+        Instituicao i ON c.instituicao = i.nome
+    GROUP BY 
+        i.nome, c.data
+),
+ranked AS (
+    SELECT 
+        t.Hospital, 
+        t.Data, 
+        t.Total_Obitos,
+        ROW_NUMBER() OVER (PARTITION BY t.Hospital ORDER BY t.Total_Obitos DESC) AS rn
+    FROM 
+        t
+)
+SELECT 
+    Hospital, 
+    Data, 
+    Total_Obitos
+FROM 
+    ranked
+WHERE 
+    rn = 1; ''').fetchall()
+    return render_template('pergunta8.html',stats=stats)
+

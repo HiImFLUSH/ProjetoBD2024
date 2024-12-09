@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1> Mês em que houve a maior quantidade de mortes em cada instituição</h1>
+
+<table>
+  <tr>
+    <th> Instituição </th>
+    <th> Data </th>
+    <th> Máximo Nº de Óbitos </th>
+  </tr>
+  {% for s in stats %}
+  <tr>
+    <td>{{ s.Hospital }}</td>
+    <td>{{ s.Data }}</td>
+    <td>{{ s.Total_Obitos }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
