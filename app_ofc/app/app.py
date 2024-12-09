@@ -286,3 +286,21 @@ FROM Instituicao
 group by regiao
     ''').fetchall() 
     return render_template("hpor.html", hpor=stats)
+
+@APP.route('/or/')
+def eor():
+    stats= db.execute('''
+SELECT 
+    p.faixaEtaria,
+    d.nome AS diagnostico,
+    i.nome AS instituicao,
+    COUNT(DISTINCT c.IDP) AS total_ambulatorios,  
+    SUM(CASE WHEN c.internamentos > 0 THEN 1 ELSE 0 END) AS total_internamentos  
+FROM ClinicStats c
+JOIN Paciente p ON c.IDP = p.IDP
+JOIN Diagnostico d ON c.ID = d.ID
+JOIN Instituicao i ON c.instituicao = i.nome
+GROUP BY p.faixaEtaria, d.nome, i.nome
+HAVING COUNT(DISTINCT c.IDP) > SUM(CASE WHEN c.internamentos > 0 THEN 1 ELSE 0 END);
+    ''').fetchall() 
+    return render_template("or.html", eor=stats)

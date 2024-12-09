@@ -1,0 +1,26 @@
+
+  {% extends 'base.html' %}
+  {% block content %}
+
+      <h1>diagunosticos ou hospitais onde a os ambulatorios são maiores que os internamentos</h1>
+     
+
+     <table>
+  <tr>
+    <th>faixaEtaria</th>
+    <th>FaixaEtaria</th>
+    <th>Instituicao</th>
+    <th>Ambulatorio</th>
+    <th>Internamentos</th>
+  </tr>
+   {% for e in eor %}
+  <tr>
+    <td>{{ e.faixaEtaria }}</td>
+    <td>{{ e.diagnostico }}</td>
+    <td>{{ e.inatituicao }}</td>
+    <td>{{ e.total_ambulatorios }}</td>
+    <td>{{ e.total_internamentos }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
