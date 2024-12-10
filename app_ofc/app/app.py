@@ -344,7 +344,6 @@ WHERE
     rn = 1; ''').fetchall()
     return render_template('pergunta8.html',stats=stats)
 
-<<<<<<< HEAD
 @APP.route('/hpor/')
 def hpor():
     stats= db.execute('''
@@ -371,7 +370,7 @@ GROUP BY p.faixaEtaria, d.nome, i.nome
 HAVING COUNT(DISTINCT c.IDP) > SUM(CASE WHEN c.internamentos > 0 THEN 1 ELSE 0 END);
     ''').fetchall() 
     return render_template("or.html", eor=stats)
-=======
+
 @APP.route('/pergunta10/')
 def obitosInst():
     # Encontre a média, mediana e desvio padrão do número de dias de internamento por faixa etária.
@@ -379,4 +378,3 @@ def obitosInst():
     
 ; ''').fetchall()
     return render_template('pergunta8.html',stats=stats)
->>>>>>> da1dcb944939e896ec86c0d979ad98258a1b0f3d
