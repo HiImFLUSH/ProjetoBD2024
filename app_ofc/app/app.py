@@ -467,7 +467,7 @@ def pergunta12():
     stats = db.execute('''
 	SELECT c.data AS Data, 
 i.regiao AS Regiao, 
-AVG(c.internamentos)
+AVG(c.internamentos) as Internamnetos
 FROM ClinicStats c
 JOIN Instituicao i ON i.nome = c.instituicao
 GROUP BY c.data, i.regiao
@@ -479,15 +479,13 @@ ORDER BY c.data, c.internamento
 @APP.route('/pergunta14/')
 def pergunta14(): 
     stats = db.execute('''
-select Diagnóstico, "Faixa Etária", max(Ocorrências) as Quantidade
+select Diagnóstico, Faixa_Etaria, max(Ocorrências) as Quantidade
 from
-(SELECT d.nome as Diagnóstico, p.faixaEtaria as "Faixa Etária", count(*) as Ocorrências
+(SELECT d.nome as Diagnóstico, p.faixaEtaria as Faixa_Etaria, count(*) as Ocorrências
 FROM ClinicStats c join Diagnostico d join Paciente p on d.ID = c.ID and c.IDP = p.IDP
 group by d.nome, p.faixaEtaria)
 group by Diagnóstico
 order by Quantidade;
-
-
  ''').fetchall()
     return render_template('pergunta14.html',pergunta14=stats)
 
