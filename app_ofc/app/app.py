@@ -18,7 +18,7 @@ def index5():
     return render_template('Paciente.html',paciente=stats)
 
 @APP.route('/Periodo/')
-def index6():
+def periodo():
     #tabela de periodo
     stats = db.execute('''
        SELECT * 
