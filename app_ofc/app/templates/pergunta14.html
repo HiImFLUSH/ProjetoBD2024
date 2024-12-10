@@ -1,0 +1,20 @@
+
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Faixas Etárias mais comuns em cada diagnóstico.</h1>
+     <table>
+  <tr>
+    <th>Diagnostico</th>
+    <th>FaixaEtaria</th>
+    <th>Quantidade</th>
+  </tr>
+   {% for p in pergunta14 %}
+  <tr>
+    <td>{{ p.Diagnóstico }}</td>
+    <td>{{ p.Faixa_Etária }}</td>
+    <td>{{ p.Quantidade }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

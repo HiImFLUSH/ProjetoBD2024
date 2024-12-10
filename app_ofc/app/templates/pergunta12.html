@@ -1,0 +1,20 @@
+
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Calcule a media das internações mês a mês por região.</h1>
+     <table>
+  <tr>
+    <th>Data</th>
+    <th>Regiao</th>
+    <th>Regiao</th>
+  </tr>
+   {% for p in pergunta12 %}
+  <tr>
+    <td>{{ p.Data }}</td>
+    <td>{{ p.Regiao }}</td>
+    <td>{{ p.Internamentos }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Mostre, para um hospital específico, os diagnósticos realizados, juntamente com o número de internamentos, o máximo de dias de internamento, o número total de ambulatórios e o número total de óbitos agrupados por doenças.</h1>
+     <table>
+  <tr>
+    <th>Diagnostico</th>
+    <th>FaixaEtaria</th>
+    <th>Quantidade</th>
+  </tr>
+   {% for p in pergunta14 %}
+  <tr>
+    <td>{{ p.Diagnóstico }}</td>
+    <td>{{ p.Faixa_Etária }}</td>
+    <td>{{ p.Quantidade }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

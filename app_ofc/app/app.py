@@ -156,21 +156,7 @@ def r_diagnostico():
     return render_template('regiao_d.html',
                             diagnostico=r_diagnostico)
 
-@APP.route('/Obitos_Instituicao/')
-def o_instituicao():
-    # Quais hospitais, regiões e diagnosticos possuem mais obitos
-    o_instituicao = db.execute('''
-        SELECT i.nome AS Hospitais, r.nome AS Regiao,d.nome AS Diagnostico, p.data AS Data, COUNT(DISTINCT c.obitos) AS Obitos
-        FROM ClinicStats c
-        JOIN Instituicao i ON c.instituicao = i.nome
-        JOIN Regiao r ON i.regiao = r.nome
-        JOIN Periodo p ON c.data = p.data
-        JOIN Diagnostico d ON c.ID = d.ID
-        GROUP BY r.nome, c.data, i.nome
-        ORDER BY r.nome, c.data, Obitos DESC; ---- demora muito stempo temos que as dividir em partes 
-    ''').fetchall()
-    return render_template('Obitos_Instituicao.html',
-                           obitos=o_instituicao)
+
 
 @APP.route('/Pacientes_Internacao/')
 def p_interna():
@@ -475,3 +461,53 @@ ORDER BY
     c.instituicao, d.nome, c.data
 ; ''').fetchall()
     return render_template('pergunta3.html',pergunta=stats)
+
+@APP.route('/pergunta12/')
+def pergunta12(): 
+    stats = db.execute('''
+	SELECT c.data AS Data, 
+i.regiao AS Regiao, 
+AVG(c.internamentos)
+FROM ClinicStats c
+JOIN Instituicao i ON i.nome = c.instituicao
+GROUP BY c.data, i.regiao
+ORDER BY c.data, c.internamento
+
+ ''').fetchall()
+    return render_template('pergunta12.html',pergunta12=stats)
+
+@APP.route('/pergunta14/')
+def pergunta14(): 
+    stats = db.execute('''
+select Diagnóstico, "Faixa Etária", max(Ocorrências) as Quantidade
+from
+(SELECT d.nome as Diagnóstico, p.faixaEtaria as "Faixa Etária", count(*) as Ocorrências
+FROM ClinicStats c join Diagnostico d join Paciente p on d.ID = c.ID and c.IDP = p.IDP
+group by d.nome, p.faixaEtaria)
+group by Diagnóstico
+order by Quantidade;
+
+
+ ''').fetchall()
+    return render_template('pergunta14.html',pergunta14=stats)
+
+
+@APP.route('/pergunta15/')
+def pergunta15(): 
+    stats = db.execute('''
+SELECT 
+        i.nome AS Hospital,
+        d.nome AS Diagnostico,
+        SUM(c.internamentos) AS Total_Internamentos,
+        MAX(c.diasInternamento) AS Max_Dias_Internamento,
+        SUM(c.ambulatorio) AS Total_Ambulatorio,
+        SUM(c.obitos) AS Total_Obitos
+    FROM ClinicStats c
+    JOIN Diagnostico d ON c.id = d.id
+    JOIN Instituicao i ON c.instituicao = i.nome
+    GROUP BY i.nome, d.nome
+    ORDER BY  i.nome ASC, d.nome ASC
+
+
+ ''').fetchall()
+    return render_template('pergunta15.html',pergunta15=stats)

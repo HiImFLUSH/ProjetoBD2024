@@ -1,16 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
 
-  {% extends 'base.html' %}
-  {% block content %}
-      <h1>Periodo</h1>
-     <table>
+      <h1>Mostre, para um hospital específico, os diagnósticos realizados, juntamente com o número de internamentos, o máximo de dias de internamento, o número total de ambulatórios e o número total de óbitos agrupados por doenças</h1>
+<table>
   <tr>
-    <th>data</th>
+    <th>Hospital</th>
+    <th>Diagnostico</th>
+    <th>total internamento</th>
+    <th>maximo dias de internamento</th>
+    <th>totalambulatório</th>
+    <th>total de óbitos</th>
   </tr>
-   {% for p in periodo %}
+    {% for c in clinicstats %}
   <tr>
-    <td>{{ p.data }}</td>
+    <td>{{ c.Hospital }}</td>
+    <td>{{ c.Diagnostico }}</td>
+    <td>{{ c.Total_Internamentos }}</td>
+    <td>{{ c.Max_Dias_Internamento }}</td>
+    <td>{{ c.Total_Ambulatorio }}</td>
+    <td>{{ c.Total_Obitos }}</td>
   </tr>
   {% endfor %}
 </table>
-
 {% endblock %}
