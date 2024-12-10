@@ -465,15 +465,14 @@ ORDER BY
 @APP.route('/pergunta12/')
 def pergunta12(): 
     stats = db.execute('''
-	SELECT c.data AS Data, 
+SELECT c.data AS Data, 
 i.regiao AS Regiao, 
-AVG(c.internamentos) as Internamnetos
+AVG(c.internamentos) as Internamentos
 FROM ClinicStats c
 JOIN Instituicao i ON i.nome = c.instituicao
 GROUP BY c.data, i.regiao
-ORDER BY c.data, c.internamento
-
- ''').fetchall()
+ORDER BY c.data, c.internamentos
+; ''').fetchall()
     return render_template('pergunta12.html',pergunta12=stats)
 
 @APP.route('/pergunta14/')
