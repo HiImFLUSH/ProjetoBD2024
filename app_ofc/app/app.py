@@ -403,3 +403,26 @@ ON o.faixaEtaria = m.faixaEtaria
 GROUP BY o.faixaEtaria, m.media, m.total_registros
 ; ''').fetchall()
     return render_template('pergunta11.html',pergunta=stats)
+
+
+@APP.route('/pergunta3/')
+def pergunta3():
+    # Óbitos em comparação ao ano, por instituição e diagnóstico:
+    stats = db.execute('''
+SELECT
+    c.data As Período, 
+    c.instituicao AS Hospital, 
+    d.nome AS Diagnóstico, 
+    SUM(c.obitos) AS Óbitos
+FROM 
+    ClinicStats c
+JOIN 
+    Diagnostico d 
+ON 
+    d.ID = c.ID
+GROUP BY 
+    d.nome, c.data, c.instituicao
+ORDER BY 
+    c.instituicao, d.nome, c.data
+; ''').fetchall()
+    return render_template('pergunta3.html',pergunta=stats)
