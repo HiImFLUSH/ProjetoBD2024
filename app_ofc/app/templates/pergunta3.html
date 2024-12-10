@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> obitos por instituição </h1>
+  <table>
+      <tr><th>Data</th>
+        <th>Hospitais</th>
+        <th>Diagnósticos</th>  
+        <th>Obitos</th>
+      </tr>
+      {% for o in pergunta %}
+      <tr>
+          <td>{{ o.Período }}</td>
+          <td>{{ o.Hospital }}</td>
+          <td>{{ o.Diagnóstico }}</td>
+          <td>{{ o.Óbitos }}</td>
+      </tr>
+      {% endfor %}
+  </table>
+    {% endblock %}
