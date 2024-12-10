@@ -372,53 +372,34 @@ HAVING COUNT(DISTINCT c.IDP) > SUM(CASE WHEN c.internamentos > 0 THEN 1 ELSE 0 E
     return render_template("or.html", eor=stats)
 
 @APP.route('/pergunta11/')
-def obitosInst():
+def pergunta11():
     # Encontre a média, mediana e desvio padrão do número de dias de internamento por faixa etária.
     stats = db.execute('''
 WITH Media AS (
-    SELECT 
-        ClinicStats.diasinternamento, 
-        Paciente.faixaEtaria 
-    FROM 
-        ClinicStats 
-    INNER JOIN 
-        Paciente 
-    ON 
-        ClinicStats.IDP = Paciente.IDP
+    SELECT ClinicStats.diasinternamento, Paciente.faixaEtaria 
+    FROM ClinicStats 
+    INNER JOIN  Paciente 
+    ON ClinicStats.IDP = Paciente.IDP
 ), 
 Mediana AS (
-    SELECT 
-        faixaEtaria, 
-        diasinternamento,
+    SELECT faixaEtaria, diasinternamento,
         ROW_NUMBER() OVER (PARTITION BY faixaEtaria ORDER BY diasinternamento) AS rn,
         COUNT(*) OVER (PARTITION BY faixaEtaria) AS total
-    FROM 
-        Media
+    FROM  Media
 ), 
 DesvioPadrao AS (
-    SELECT 
-        faixaEtaria,
-        AVG(diasinternamento) AS media,
+    SELECT faixaEtaria,AVG(diasinternamento) AS media,
         SUM(diasinternamento * diasinternamento) AS soma_quadrados,
         COUNT(*) AS total_registros
-    FROM 
-        Media
-    GROUP BY 
-        faixaEtaria
+    FROM Media
+    GROUP BY faixaEtaria
 )
-----main----
-SELECT 
-    o.faixaEtaria,
-    m.media,
+SELECT o.faixaEtaria,m.media,
     MAX(CASE WHEN o.rn = (o.total + 1) / 2 THEN o.diasinternamento END) AS mediana,
     SQRT(SUM(POWER(o.diasinternamento - m.media, 2)) / m.total_registros) AS desvioPadrao
-FROM 
-    Mediana o
-JOIN 
-    DesvioPadrao m
-ON 
-    o.faixaEtaria = m.faixaEtaria
-GROUP BY 
-    o.faixaEtaria, m.media, m.total_registros
+FROM Mediana o
+JOIN DesvioPadrao m
+ON o.faixaEtaria = m.faixaEtaria
+GROUP BY o.faixaEtaria, m.media, m.total_registros
 ; ''').fetchall()
-    return render_template('pergunta11.html',stats=stats)
+    return render_template('pergunta11.html',pergunta=stats)

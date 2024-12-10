@@ -1,0 +1,22 @@
+
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Pergunta 11</h1>
+     <table>
+  <tr>
+    <th>FaixaEtaria</th>
+    <th>media</th>
+    <th>mediana</th>
+    <th>desvioa padrão</th>
+  </tr>
+   {% for p in pergunta %}
+  <tr>
+    <td>{{ p.faixaEtaria }}</td>
+    <td>{{ p.media }}</td>
+    <td>{{ p.mediana }}</td>
+    <td>{{ p.desvioPadrao }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
