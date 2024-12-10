@@ -404,6 +404,7 @@ GROUP BY o.faixaEtaria, m.media, m.total_registros
 ; ''').fetchall()
     return render_template('pergunta11.html',pergunta=stats)
 
+<<<<<<< HEAD
 @APP.route('/pergunta13/')
 def pergunta13(): 
     stats = db.execute('''
@@ -453,3 +454,27 @@ CROSS JOIN MediaGlobal m
 ORDER BY p.Proporcao DESC;
     ''').fetchall()
     return render_template('pergunta10.html',pergunta10=stats)
+=======
+
+@APP.route('/pergunta3/')
+def pergunta3():
+    # Óbitos em comparação ao ano, por instituição e diagnóstico:
+    stats = db.execute('''
+SELECT
+    c.data As Período, 
+    c.instituicao AS Hospital, 
+    d.nome AS Diagnóstico, 
+    SUM(c.obitos) AS Óbitos
+FROM 
+    ClinicStats c
+JOIN 
+    Diagnostico d 
+ON 
+    d.ID = c.ID
+GROUP BY 
+    d.nome, c.data, c.instituicao
+ORDER BY 
+    c.instituicao, d.nome, c.data
+; ''').fetchall()
+    return render_template('pergunta3.html',pergunta=stats)
+>>>>>>> b84e2ea00bea5f1121ea369a57d14bd551a515da
