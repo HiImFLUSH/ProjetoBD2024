@@ -1,0 +1,20 @@
+
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Pergunta 13</h1>
+     <table>
+  <tr>
+    <th>Diagnostico</th>
+    <th>FaixaEtaria</th>
+    <th>Ocorrências</th>
+  </tr>
+   {% for p in pergunta13 %}
+  <tr>
+    <td>{{ p.Diagnóstico }}</td>
+    <td>{{ p.Faixa Etaria }}</td>
+    <td>{{ p.Ocorrência }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

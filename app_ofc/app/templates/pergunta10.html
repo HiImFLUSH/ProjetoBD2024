@@ -1,0 +1,24 @@
+
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Pergunta 13</h1>
+     <table>
+  <tr>
+    <th>Regiao</th>
+    <th>Total de obitos</th>
+    <th>Total de internamnetos</th>
+    <th>Proporção</th>
+    <th>Media da proporção global</th>
+  </tr>
+   {% for p in pergunta10 %}
+  <tr>
+    <td>{{ p.Regiao }}</td>
+    <td>{{ p.Total_Obitos }}</td>
+    <td>{{ p.Total_Internamnetos }}</td>
+    <td>{{ p.Proporcao }}</td>
+    <td>{{ p.Media_Proporcao_Global }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

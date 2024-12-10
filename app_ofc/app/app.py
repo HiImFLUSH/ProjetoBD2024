@@ -403,3 +403,53 @@ ON o.faixaEtaria = m.faixaEtaria
 GROUP BY o.faixaEtaria, m.media, m.total_registros
 ; ''').fetchall()
     return render_template('pergunta11.html',pergunta=stats)
+
+@APP.route('/pergunta13/')
+def pergunta13(): 
+    stats = db.execute('''
+SELECT d.nome as Diagnóstico, p.faixaEtaria as "Faixa Etária", count(*) as Ocorrências
+FROM ClinicStats c join Diagnostico d join Paciente p on d.ID = c.ID and c.IDP = p.IDP
+group by d.nome, p.faixaEtaria;
+ ''').fetchall()
+    return render_template('pergunta13.html',pergunta13=stats)
+
+@APP.route('/pergunta5/')
+def pergunta5(): 
+    stats = db.execute('''
+SELECT d.nome as Diagnóstico,
+sum(c.internamentos) as Internamentos,
+sum(c.diasInternamento) as "Dias de Internamento",
+(sum(c.diasInternamento)/sum(c.internamentos)) as "Tempo médio de internamento"
+FROM Diagnostico d
+NATURAL JOIN ClinicStats c
+group by d.nome
+    ''').fetchall()
+    return render_template('pergunta5.html',pergunta5=stats)
+
+@APP.route('/pergunta10/')
+def pergunta10(): 
+    stats = db.execute('''
+
+WITH ProporcaoObitos AS (
+SELECT r.nome AS Regiao,
+SUM(c.obitos) AS Total_Obitos,
+SUM(c.internamentos) AS Total_Internamentos,
+CAST(SUM(c.obitos) AS FLOAT) / NULLIF(SUM(c.internamentos), 0) AS Proporcao
+FROM ClinicStats c join instituicao i on c.instituicao=i.nome
+JOIN Regiao r on i.regiao=r.nome
+GROUP BY r.nome
+),
+MediaGlobal AS (
+SELECT AVG(Proporcao) AS Media_Proporcao_Global
+FROM ProporcaoObitos
+)
+SELECT p.Regiao,
+p.Total_Obitos,
+p.Total_Internamentos,
+p.Proporcao,
+m.Media_Proporcao_Global
+FROM ProporcaoObitos p
+CROSS JOIN MediaGlobal m
+ORDER BY p.Proporcao DESC;
+    ''').fetchall()
+    return render_template('pergunta10.html',pergunta10=stats)

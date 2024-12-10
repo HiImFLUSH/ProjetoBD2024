@@ -1,0 +1,22 @@
+
+  {% extends 'base.html' %}
+  {% block content %}
+      <h1>Pergunta 5</h1>
+     <table>
+  <tr>
+    <th>Diagnosticos</th>
+    <th>Internamentos</th>
+    <th>Dia de internamentos</th>
+    <th>Tempo medio de internamneto</th>
+  </tr>
+   {% for p in pergunta5 %}
+  <tr>
+    <td>{{ p.Diagnóstico }}</td>
+    <td>{{ p.Internamentos }}</td>
+    <td>{{ p.Dias de Internamento}}</td>
+    <td>{{ p.Tempo médio de internamneto }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
