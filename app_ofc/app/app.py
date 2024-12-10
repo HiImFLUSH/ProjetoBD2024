@@ -404,11 +404,10 @@ GROUP BY o.faixaEtaria, m.media, m.total_registros
 ; ''').fetchall()
     return render_template('pergunta11.html',pergunta=stats)
 
-<<<<<<< HEAD
 @APP.route('/pergunta13/')
 def pergunta13(): 
     stats = db.execute('''
-SELECT d.nome as Diagnóstico, p.faixaEtaria as "Faixa Etária", count(*) as Ocorrências
+SELECT d.nome as Diagnóstico, p.faixaEtaria as "Faixa_Etária", count(*) as Ocorrências
 FROM ClinicStats c join Diagnostico d join Paciente p on d.ID = c.ID and c.IDP = p.IDP
 group by d.nome, p.faixaEtaria;
  ''').fetchall()
@@ -419,8 +418,8 @@ def pergunta5():
     stats = db.execute('''
 SELECT d.nome as Diagnóstico,
 sum(c.internamentos) as Internamentos,
-sum(c.diasInternamento) as "Dias de Internamento",
-(sum(c.diasInternamento)/sum(c.internamentos)) as "Tempo médio de internamento"
+sum(c.diasInternamento) as "Dias_de_Internamento",
+(sum(c.diasInternamento)/sum(c.internamentos)) as "Tempo_médio_de_internamento"
 FROM Diagnostico d
 NATURAL JOIN ClinicStats c
 group by d.nome
@@ -454,7 +453,6 @@ CROSS JOIN MediaGlobal m
 ORDER BY p.Proporcao DESC;
     ''').fetchall()
     return render_template('pergunta10.html',pergunta10=stats)
-=======
 
 @APP.route('/pergunta3/')
 def pergunta3():
@@ -477,4 +475,3 @@ ORDER BY
     c.instituicao, d.nome, c.data
 ; ''').fetchall()
     return render_template('pergunta3.html',pergunta=stats)
->>>>>>> b84e2ea00bea5f1121ea369a57d14bd551a515da
